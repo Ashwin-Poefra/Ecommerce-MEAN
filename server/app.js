@@ -1,7 +1,11 @@
 const express = require("express");
 const app = express();
 
-app.get("", (req, res) => {
+require("dotenv/config");
+const api = process.env.API_URL;
+
+app.get("/", (req, res) => {
+  console.log(api);
   res.send("Hello API!!!");
 });
 
