@@ -10,7 +10,19 @@ router.get(`/`, async (req, res) => {
       success: false,
     });
   }
-  res.send(categoryList);
+  res.status(200).send(categoryList);
+});
+
+router.get(`/:id`, async (req, res) => {
+  const category = await Category.findById(req.params.id);
+
+  if (!category) {
+    res.status(404).json({
+      success: false,
+      message: "can not found category with provided id: " + req.params.id,
+    });
+  }
+  res.status(200).send(category);
 });
 
 router.post(`/`, async (req, res) => {
