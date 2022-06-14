@@ -1,4 +1,4 @@
-const Order = require("../models/order");
+const {Order} = require("../models/order");
 const express = require("express");
 const router = express.Router();
 
@@ -12,3 +12,5 @@ router.get(`/`, async (req, res) => {
   }
   res.send(orderList);
 });
+
+module.exports = router;
