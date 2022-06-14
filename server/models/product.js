@@ -3,7 +3,6 @@ const { required } = require("nodemon/lib/config");
 const { Category } = require("./category");
 
 const productSchema = mongoose.Schema({
-  id: String,
   name: {
     type: String,
     required: true,
