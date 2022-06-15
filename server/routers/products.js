@@ -5,7 +5,12 @@ const router = express.Router();
 const mongoose = require("mongoose");
 
 router.get(`/`, async (req, res) => {
-  const productList = await Product.find();
+  let filter = {};
+  if (req.query.categories) {
+    filter = { category: req.query.categories.split(",") };
+  }
+
+  const productList = await Product.find(filter).populate("category");
 
   if (!productList) {
     res.status(500).json({
@@ -18,6 +23,26 @@ router.get(`/`, async (req, res) => {
 router.get(`/get/featured/:count`, async (req, res) => {
   const count = req.params.count ? req.params.count : 0;
   const productList = await Product.find({ isFeatured: true }).limit(+count);
+
+  if (!productList) {
+    res.status(500).json({
+      success: false,
+    });
+  }
+  res.status(200).send(productList);
+});
+
+router.get(`/get/category/:id`, async (req, res) => {
+  const params = req.params.id;
+
+  const category = await Category.findById(params);
+  if (!category) {
+    return res.status(400).send("The Category cannot be found");
+  }
+
+  const productList = await Product.find({ category: category }).populate(
+    "category"
+  );
 
   if (!productList) {
     res.status(500).json({
