@@ -3,8 +3,21 @@ const express = require("express");
 const { Category } = require("../models/category");
 const router = express.Router();
 const mongoose = require("mongoose");
+
 router.get(`/`, async (req, res) => {
   const productList = await Product.find();
+
+  if (!productList) {
+    res.status(500).json({
+      success: false,
+    });
+  }
+  res.status(200).send(productList);
+});
+
+router.get(`/get/featured/:count`, async (req, res) => {
+  const count = req.params.count ? req.params.count : 0;
+  const productList = await Product.find({ isFeatured: true }).limit(+count);
 
   if (!productList) {
     res.status(500).json({
@@ -24,6 +37,20 @@ router.get(`/:id`, async (req, res) => {
     });
   }
   res.status(200).send(product);
+});
+
+router.get(`/get/count`, async (req, res) => {
+  const product = await Product.countDocuments();
+
+  if (!product) {
+    res.status(404).json({
+      success: false,
+      message: "can not found product with provided id: " + req.params.id,
+    });
+  }
+  res.status(200).send({
+    productCount: product,
+  });
 });
 
 router.post(`/`, async (req, res) => {
@@ -116,20 +143,6 @@ router.delete("/:id", (req, res) => {
         message: "An Error Occurred: " + error,
       });
     });
-});
-
-router.get(`/get/count`, async (req, res) => {
-  const product = await Product.countDocuments();
-
-  if (!product) {
-    res.status(404).json({
-      success: false,
-      message: "can not found product with provided id: " + req.params.id,
-    });
-  }
-  res.status(200).send({
-    productCount: product,
-  });
 });
 
 module.exports = router;
