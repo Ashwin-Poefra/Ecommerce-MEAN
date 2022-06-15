@@ -7,7 +7,7 @@ const productSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  shortDescription: {
+  description: {
     type: String,
     required: true,
   },
@@ -39,22 +39,25 @@ const productSchema = mongoose.Schema({
   },
   countInStock: {
     type: Number,
-    required: "",
+    required: true,
     min: 0,
     max: 255,
   },
   rating: {
     type: Number,
-    required: "",
-    min: 1,
-    max: 5,
+    default: 0,
+  },
+  numReviews: {
+    type: Number,
+    default: 0,
   },
   isFeatured: {
-    type: Date,
+    type: Boolean,
     default: false,
   },
   createdDate: {
     type: Date,
+    default: Date.now,
   },
 });
 

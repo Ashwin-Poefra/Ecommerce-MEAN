@@ -42,11 +42,16 @@ router.post(`/`, async (req, res) => {
 
 router.put(`/:id`, async (req, res) => {
   const category = await Category.findByIdAndUpdate(
-    req.params.id, {
-    name: req.body.name,
-    icon: req.body.icon,
-    color: req.body.color,
-  });
+    req.params.id,
+    {
+      name: req.body.name,
+      icon: req.body.icon,
+      color: req.body.color,
+    },
+    {
+      new: true,
+    }
+  );
 
   if (!category) {
     res.status(400).json({
