@@ -15,7 +15,7 @@ router.get(`/`, async (req, res) => {
 });
 
 router.get(`/:id`, async (req, res) => {
-  const product = await Product.findById(req.params.id).populate('category');
+  const product = await Product.findById(req.params.id).populate("category");
 
   if (!product) {
     res.status(404).json({
@@ -27,7 +27,7 @@ router.get(`/:id`, async (req, res) => {
 });
 
 router.post(`/`, async (req, res) => {
-  const category =  await Category.findById(req.body.category);
+  const category = await Category.findById(req.body.category);
   if (!category) {
     return res.status(400).send("The Category cannot be found");
   }
@@ -44,12 +44,49 @@ router.post(`/`, async (req, res) => {
     rating: req.body.rating,
     numReviews: req.body.numReviews,
     isFeatured: req.body.isFeatured,
-    createdDate: req.body.createdDate,
   });
 
   product = await product.save();
   if (!product) {
     return res.status(400).send("The product cannot be created");
+  }
+
+  res.send(product);
+});
+
+router.put(`/:id`, async (req, res) => {
+
+  const category = await Category.findById(req.body.category);
+  if (!category) {
+    return res.status(400).send("The Category cannot be found");
+  }
+
+  const product = await Product.findByIdAndUpdate(
+    req.params.id,
+    {
+      name: req.body.name,
+      description: req.body.description,
+      longDescription: req.body.longDescription,
+      image: req.body.image,
+      images: req.body.images,
+      brand: req.body.brand,
+      price: req.body.price,
+      category: req.body.category,
+      countInStock: req.body.countInStock,
+      rating: req.body.rating,
+      numReviews: req.body.numReviews,
+      isFeatured: req.body.isFeatured,
+    },
+    {
+      new: true,
+    }
+  );
+
+  if (!product) {
+    res.status(400).json({
+      success: false,
+      message: "The product cannot be updated!",
+    });
   }
 
   res.send(product);
