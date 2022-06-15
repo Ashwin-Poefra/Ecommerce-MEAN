@@ -11,7 +11,19 @@ router.get(`/`, async (req, res) => {
       success: false,
     });
   }
-  res.send(productList);
+  res.status(200).send(productList);
+});
+
+router.get(`/:id`, async (req, res) => {
+  const product = await Product.findById(req.params.id);
+
+  if (!product) {
+    res.status(404).json({
+      success: false,
+      message: "can not found product with provided id: " + req.params.id,
+    });
+  }
+  res.status(200).send(product);
 });
 
 router.post(`/`, async (req, res) => {
