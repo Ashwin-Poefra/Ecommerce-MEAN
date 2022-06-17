@@ -87,6 +87,8 @@ router.post("/login", async (req, res) => {
       {
         userId: user.id,
         isAdmin: user.isAdmin,
+        audience:'http://localhost:4200/',
+        issuer:'http://localhost:3000/',
       },
       secret,
       { expiresIn: "1d" }

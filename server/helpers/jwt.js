@@ -12,14 +12,16 @@ function authenticationJwt() {
   const api = process.env.API_URL;
   return expressJwt({
     secret,
+    audience:'http://localhost:4200/',
+    issuer:'http://localhost:3000/',
     algorithms: ["HS256"],
   }).unless({
-    path:[
-      {url: /\/api\/v1\/products(.*)/ , methods: ['GET', 'OPTIONS'] },
-      {url: /\/api\/v1\/categories(.*)/ , methods: ['GET', 'OPTIONS'] },
+    path: [
+      { url: /\/api\/v1\/products(.*)/, methods: ["GET", "OPTIONS"] },
+      { url: /\/api\/v1\/categories(.*)/, methods: ["GET", "OPTIONS"] },
       `${api}/users/login`,
       `${api}/users/register`,
-  ]
+    ],
   });
 }
 
