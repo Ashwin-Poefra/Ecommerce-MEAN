@@ -12,9 +12,10 @@ function authenticationJwt() {
   const api = process.env.API_URL;
   return expressJwt({
     secret,
-    audience:'http://localhost:4200/',
-    issuer:'http://localhost:3000/',
+    audience: "http://localhost:4200/",
+    issuer: "http://localhost:3000/",
     algorithms: ["HS256"],
+    isRevoked: isRevoked,
   }).unless({
     path: [
       { url: /\/api\/v1\/products(.*)/, methods: ["GET", "OPTIONS"] },
@@ -23,6 +24,14 @@ function authenticationJwt() {
       `${api}/users/register`,
     ],
   });
+}
+
+async function isRevoked(req, payload, done) {
+  if (!payload.isAdmin) {
+    done(null, true);
+  }
+
+  done();
 }
 
 module.exports = authenticationJwt;
