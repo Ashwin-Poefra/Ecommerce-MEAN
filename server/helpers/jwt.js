@@ -12,8 +12,6 @@ function authenticationJwt() {
   const api = process.env.API_URL;
   return expressJwt({
     secret,
-    audience: "http://localhost:4200/",
-    issuer: "http://localhost:3000/",
     algorithms: ["HS256"],
     isRevoked: isRevoked,
   }).unless({
@@ -26,12 +24,15 @@ function authenticationJwt() {
   });
 }
 
-async function isRevoked(req, payload, done) {
-  if (!payload.isAdmin) {
-    done(null, true);
-  }
+async function isRevoked(req, token) {
+  // token now contains payload data
+  //console.log(token);
 
-  done();
+  if (!token.payload.isAdmin) {
+    return true; // if the isAdmin flag in payload is false, then we reject the token
+
+  }
+  return false;
 }
 
 module.exports = authenticationJwt;

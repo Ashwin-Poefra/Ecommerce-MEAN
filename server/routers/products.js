@@ -70,7 +70,7 @@ router.get(`/get/count`, async (req, res) => {
   if (!product) {
     res.status(404).json({
       success: false,
-      message: "can not found product with provided id: " + req.params.id,
+      message: "can not count products",
     });
   }
   res.status(200).send({

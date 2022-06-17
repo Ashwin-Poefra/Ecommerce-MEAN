@@ -24,6 +24,20 @@ router.get("/:id", async (req, res) => {
   res.status(200).send(user);
 });
 
+router.get(`/get/count`, async (req, res) => {
+  const user = await User.countDocuments();
+
+  if (!user) {
+    res.status(404).json({
+      success: false,
+      message: "can not count users",
+    });
+  }
+  res.status(200).send({
+    userCount: user,
+  });
+});
+
 router.post("/", async (req, res) => {
   let user = new User({
     name: req.body.name,
@@ -75,6 +89,29 @@ router.put("/:id", async (req, res) => {
   res.send(user);
 });
 
+router.delete("/:id", (req, res) => {
+  User.findByIdAndRemove(req.params.id)
+    .then((user) => {
+      if (user) {
+        return res.status(200).json({
+          success: true,
+          message: "User deleted successfully",
+        });
+      } else {
+        return res.status(404).json({
+          success: false,
+          message: "can not found user with provided id: " + req.params.id,
+        });
+      }
+    })
+    .catch((error) => {
+      return res.status(404).json({
+        success: false,
+        message: "An Error Occurred: " + error,
+      });
+    });
+});
+
 router.post("/login", async (req, res) => {
   const user = await User.findOne({ email: req.body.email });
   const secret = process.env.SECRET;
@@ -85,10 +122,15 @@ router.post("/login", async (req, res) => {
   if (user && bcrypt.compareSync(req.body.password, user.passwordHash)) {
     const token = jwt.sign(
       {
-        userId: user.id,
-        isAdmin: user.isAdmin,
-        audience:'http://localhost:4200/',
-        issuer:'http://localhost:3000/',
+        payload: {
+          userId: user.id,
+          isAdmin: user.isAdmin,
+        },
+
+        options: {
+          audience: "http://localhost:4200/",
+          issuer: "http://localhost:3000/",
+        },
       },
       secret,
       { expiresIn: "1d" }

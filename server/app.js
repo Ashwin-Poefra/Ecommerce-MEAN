@@ -13,11 +13,10 @@ app.use("*", cors());
 
 //Middleware
 app.use(express.json());
-app.use(authJwt());
-app.use(errorHandler);
-
 //Logs
 app.use(morgan("tiny"));
+app.use(authJwt());
+app.use(errorHandler);
 
 //Routers
 const categoriesRoutes = require("./routers/categories");
