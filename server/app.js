@@ -4,13 +4,14 @@ const morgan = require("morgan");
 const mongoose = require("mongoose");
 const cors = require("cors");
 require("dotenv/config");
-
+const authJwt = require("./helpers/jwt");
 //Enable Corse
 app.use(cors());
 app.use("*", cors());
 
 //Middleware
-app.use(express.json()); 
+app.use(express.json());
+app.use(authJwt());
 
 //Logs
 app.use(morgan("tiny"));
