@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 require("dotenv/config");
 const authJwt = require("./helpers/jwt");
-const errorHandler = require('./helpers/error-handler');
+const errorHandler = require("./helpers/error-handler");
 
 //Enable Corse
 app.use(cors());
@@ -16,6 +16,7 @@ app.use(express.json());
 //Logs
 app.use(morgan("tiny"));
 app.use(authJwt());
+app.use("/public/uploads", express.static(__dirname + "/public/uploads"));
 app.use(errorHandler);
 
 //Routers
