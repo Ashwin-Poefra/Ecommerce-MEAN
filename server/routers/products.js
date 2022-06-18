@@ -111,6 +111,9 @@ router.post(`/`, uploadOptions.single("image"), async (req, res) => {
     return res.status(400).send("The Category cannot be found");
   }
 
+  const file = req.file;
+  if (!file) return res.status(400).send("no image file found!");
+
   const fileName = req.file.filename;
   const basePath = `${req.protocol}://${req.get("host")}/public/uploads/`;
   const fullImagePath = basePath + fileName;
