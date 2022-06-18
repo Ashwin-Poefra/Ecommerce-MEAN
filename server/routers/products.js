@@ -182,6 +182,44 @@ router.put(`/:id`, async (req, res) => {
   res.send(product);
 });
 
+router.put(
+  `/gallery-images/:id`,
+  uploadOptions.array("images", 10),
+  async (req, res) => {
+    if (!mongoose.isValidObjectId(req.params.id)) {
+      res.status(400).send("invalid Product Id");
+    }
+    const files = req.files;
+    const basePath = `${req.protocol}://${req.get("host")}/public/uploads/`;
+    let imagesPaths = [];
+    if (files) {
+      files.map((file) => {
+        const fileImagePath = basePath + file.filename;
+        imagesPaths.push(basePath + fileImagePath);
+      });
+    }
+
+    const product = await Product.findByIdAndUpdate(
+      req.params.id,
+      {
+        images: imagesPaths,
+      },
+      {
+        new: true,
+      }
+    );
+
+    if (!product) {
+      res.status(400).json({
+        success: false,
+        message: "The product cannot be updated!",
+      });
+    }
+
+    res.send(product);
+  }
+);
+
 router.delete("/:id", (req, res) => {
   Product.findByIdAndRemove(req.params.id)
     .then((product) => {
