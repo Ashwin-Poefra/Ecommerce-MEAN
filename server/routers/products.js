@@ -7,7 +7,7 @@ const multer = require("multer");
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "/public/uploads");
+    cb(null, "public/uploads");
   },
   filename: function (req, file, cb) {
     const fileName = file.originalname.split(" ").join("-");
@@ -100,6 +100,7 @@ router.post(`/`, uploadOptions.single("image"), async (req, res) => {
   const fileName = req.file.filename;
   const basePath = `${req.protocol}://${req.get("host")}/public/uploads/`;
   const fullImagePath = basePath + fileName;
+
   let product = new Product({
     name: req.body.name,
     description: req.body.description,

@@ -122,15 +122,10 @@ router.post("/login", async (req, res) => {
   if (user && bcrypt.compareSync(req.body.password, user.passwordHash)) {
     const token = jwt.sign(
       {
-        payload: {
-          userId: user.id,
-          isAdmin: user.isAdmin,
-        },
-
-        options: {
-          audience: "http://localhost:4200/",
-          issuer: "http://localhost:3000/",
-        },
+        userId: user.id,
+        isAdmin: user.isAdmin,
+        audience: "http://localhost:4200/",
+        issuer: "http://localhost:3000/",
       },
       secret,
       { expiresIn: "1d" }
