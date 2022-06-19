@@ -1,8 +1,10 @@
 {
-  "$schema": "./node_modules/nx/schemas/workspace-schema.json",
-  "version": 2,
-  "projects": {
-    "ngshop": "apps/ngshop",
-    "ngshop-e2e": "apps/ngshop-e2e"
-  }
+    "$schema": "./node_modules/nx/schemas/workspace-schema.json",
+    "version": 2,
+    "projects": {
+        "admin": "apps/admin",
+        "admin-e2e": "apps/admin-e2e",
+        "ngshop": "apps/ngshop",
+        "ngshop-e2e": "apps/ngshop-e2e"
+    }
 }
