@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-    selector: 'ouakala-workspace-primary-footer',
+    selector: 'ngshop-primary-footer',
     templateUrl: './primary-footer.component.html',
     styleUrls: ['./primary-footer.component.scss']
 })
