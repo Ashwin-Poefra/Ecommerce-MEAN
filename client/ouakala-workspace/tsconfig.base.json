@@ -15,7 +15,10 @@
         "skipDefaultLibCheck": true,
         "baseUrl": ".",
         "paths": {
-            "@ouakala-workspace/ui": ["libs/ui/src/index.ts"]
+            "@ouakala-workspace/orders": ["libs/orders/src/index.ts"],
+            "@ouakala-workspace/products": ["libs/products/src/index.ts"],
+            "@ouakala-workspace/ui": ["libs/ui/src/index.ts"],
+            "@ouakala-workspace/users": ["libs/users/src/index.ts"]
         }
     },
     "exclude": ["node_modules", "tmp"]
