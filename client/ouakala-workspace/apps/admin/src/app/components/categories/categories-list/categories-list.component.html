@@ -1,0 +1,34 @@
+<div class="admin-page">
+  <p-card header="Categories" subheader="List of all categories">
+    <div class="grid">
+      <div class="col-12">
+        <div class="p-toolbar-group-left">
+          <p-button label="New" icon="pi pi-plus"></p-button>
+      </div>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="col-12">
+        <p-table [value]="categories" styleClass="p-datatable-gridlines" responsiveLayout="scroll">
+          <ng-template pTemplate="header">
+              <tr>
+                  <th>ID</th>
+                  <th>NAME</th>
+                  <th>ICON</th>
+                  <th>ACTION</th>
+              </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-category>
+              <tr>
+                  <td>{{category.id}}</td>
+                  <td>{{category.name}}</td>
+                  <td>{{category.icon}}</td>
+                  <td></td>
+              </tr>
+          </ng-template>
+      </p-table>
+      </div>
+    </div>
+</p-card>
+</div>
