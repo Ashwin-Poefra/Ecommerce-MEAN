@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'ouakala-workspace-dashboard',
+  selector: 'admin-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+  // styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
 
