@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { NxWelcomeComponent } from './nx-welcome.component';
@@ -17,7 +18,7 @@ import { TableModule } from 'primeng/table';
 const UX_MODULE = [CardModule, ToolbarModule, ButtonModule, TableModule];
 @NgModule({
     declarations: [AppComponent, NxWelcomeComponent, ShellComponent, SidebarComponent, DashboardComponent, CategoriesListComponent],
-    imports: [BrowserModule, AppRoutingModule, ...UX_MODULE],
+    imports: [BrowserModule, AppRoutingModule, HttpClientModule, ...UX_MODULE],
     providers: [],
     bootstrap: [AppComponent]
 })
