@@ -1,9 +1,11 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { CategoriesListComponent } from './components/categories/categories-list/categories-list.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
-import { ConstantsRoutes } from './routes/constants-routes';
 import { ShellComponent } from './shared/shell/shell.component';
+import { CategoriesListComponent } from './components/categories/categories-list/categories-list.component';
+import { CategoryFormComponent } from './components/categories/category-form/category-form.component';
+
+import { ConstantsRoutes } from './routes/constants-routes';
 
 const routes: Routes = [
     {
@@ -11,7 +13,8 @@ const routes: Routes = [
         component: ShellComponent,
         children: [
             { path: ConstantsRoutes.DASHBOARD, component: DashboardComponent },
-            { path: ConstantsRoutes.CATEGORIES, component: CategoriesListComponent }
+            { path: ConstantsRoutes.CATEGORIES, component: CategoriesListComponent },
+            { path: ConstantsRoutes.CATEGORY_FORM, component: CategoryFormComponent },
         ]
     }
 ];
