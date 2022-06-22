@@ -4,7 +4,6 @@ import { Category, CategoryService } from '@ouakala-workspace/products';
 import { MessageService } from 'primeng/api';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
-import { timer } from 'rxjs';
 @Component({
     selector: 'admin-category-form',
     templateUrl: './category-form.component.html'
@@ -55,8 +54,6 @@ export class CategoryFormComponent implements OnInit {
 
             this._categoryService.createCategory(this.category).subscribe(
                 (response) => {
-                    console.log('response: ', response);
-
                     this.showSpinner = false;
                     this.isSubmitted = false;
                     this._messageService.add({

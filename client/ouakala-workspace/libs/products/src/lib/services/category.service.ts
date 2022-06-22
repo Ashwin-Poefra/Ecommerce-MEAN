@@ -18,4 +18,8 @@ export class CategoryService {
     public createCategory(category: Category): Observable<Category> {
         return this._httpClient.post<Category>(`${this.baseUrl}`, category);
     }
+
+    public deleteCategory(categoryId: string): Observable<object> {
+        return this._httpClient.delete<object>(`${this.baseUrl}/${categoryId}`);
+    }
 }
