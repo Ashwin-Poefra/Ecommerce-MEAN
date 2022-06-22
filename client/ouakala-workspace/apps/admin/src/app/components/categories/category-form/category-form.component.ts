@@ -33,7 +33,8 @@ export class CategoryFormComponent implements OnInit {
     private buildCategoryForm() {
         this.categoryForm = this._formBuilder.group({
             name: new FormControl('', [Validators.required]),
-            icon: new FormControl('', [Validators.required])
+            icon: new FormControl('', [Validators.required]),
+            color: new FormControl('', [Validators.required])
         });
     }
 
@@ -58,6 +59,7 @@ export class CategoryFormComponent implements OnInit {
             this.category = new Category();
             this.category.name = this.categoryFromControls['name'].value;
             this.category.icon = this.categoryFromControls['icon'].value;
+            this.category.color = this.categoryFromControls['color'].value;
 
             this._categoryService.createCategory(this.category).subscribe(
                 (response) => {
@@ -87,6 +89,8 @@ export class CategoryFormComponent implements OnInit {
 
             this.category.name = this.categoryFromControls['name'].value;
             this.category.icon = this.categoryFromControls['icon'].value;
+            this.category.color = this.categoryFromControls['color'].value;
+
             if (this.category.id) {
                 this._categoryService.updateCategory(this.category, this.category.id).subscribe(
                     (response) => {
@@ -119,6 +123,7 @@ export class CategoryFormComponent implements OnInit {
                     this.category = response;
                     this.categoryFromControls['name'].setValue(this.category.name);
                     this.categoryFromControls['icon'].setValue(this.category.icon);
+                    this.categoryFromControls['color'].setValue(this.category.color);
                 });
             }
         });
