@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Category,CategoryService } from '@ouakala-workspace/products';
+import { Category, CategoryService } from '@ouakala-workspace/products';
 @Component({
     selector: 'admin-categories-list',
     templateUrl: './categories-list.component.html',

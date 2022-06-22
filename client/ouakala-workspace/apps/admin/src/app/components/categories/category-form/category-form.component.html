@@ -6,8 +6,8 @@
                     <div class="p-toolbar-group-left"></div>
 
                     <div class="p-toolbar-group-right">
-                        <p-button label="Create" icon="pi pi-plus" styleClass="p-button-success mr-2"></p-button>
-                        <p-button label="Cancel" icon="pi pi-arrow-circle-left" styleClass="p-button-secondary"></p-button>
+                        <p-button label="Create" icon="pi pi-plus" styleClass="p-button-success mr-2" (onClick)="onSubmit()"></p-button>
+                        <p-button label="Cancel" icon="pi pi-arrow-circle-left" styleClass="p-button-secondary" (onClick)="onCancel()"></p-button>
                     </div>
                 </p-toolbar>
             </div>
@@ -15,23 +15,31 @@
 
         <div class="grid">
             <div class="col-12">
-                <form>
+                <div class="admin-progress-spinner" *ngIf="showSpinner">
+                    <p-progressSpinner></p-progressSpinner>
+                </div>
+
+                <form [formGroup]="categoryForm">
                     <div class="formgrid grid">
                         <div class="field col">
                             <label for="name">Name</label>
                             <input
                                 id="name"
                                 type="text"
+                                formControlName="name"
                                 class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
                             />
+                            <small *ngIf="categoryFromControls['name'] && isSubmitted" class="p-error">Name is Required.</small>
                         </div>
                         <div class="field col">
                             <label for="icon">Icon</label>
                             <input
                                 id="icon"
                                 type="text"
+                                formControlName="icon"
                                 class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
                             />
+                            <small *ngIf="categoryFromControls['icon'] && isSubmitted" class="p-error">Icon is Required.</small>
                         </div>
                     </div>
                 </form>
