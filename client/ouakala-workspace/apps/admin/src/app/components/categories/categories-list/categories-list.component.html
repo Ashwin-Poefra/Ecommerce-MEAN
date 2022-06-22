@@ -30,7 +30,7 @@
                             <td>{{ category.name }}</td>
                             <td>{{ category.icon }}</td>
                             <td>
-                              <button pButton type="button" icon="pi pi-pencil" label="Edit" class="p-button-success mr-2" iconPos="left" (click)="onEditCategory()"></button>
+                              <button pButton type="button" icon="pi pi-pencil" label="Edit" class="p-button-success mr-2" iconPos="left" (click)="onUpdateCategory(category.id)"></button>
                               <button pButton type="button" icon="pi pi-trash" label="Delete" class="p-button-danger" iconPos="left" (click)="onDeleteCategory(category.id)"></button>
                             </td>
                         </tr>

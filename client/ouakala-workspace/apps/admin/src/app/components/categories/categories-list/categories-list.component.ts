@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Category, CategoryService } from '@ouakala-workspace/products';
 import { MessageService, ConfirmEventType, ConfirmationService } from 'primeng/api';
 
@@ -10,7 +11,12 @@ import { MessageService, ConfirmEventType, ConfirmationService } from 'primeng/a
 export class CategoriesListComponent implements OnInit {
     public categories: Category[] = [];
 
-    constructor(private _categoryService: CategoryService, private _messageService: MessageService, private _confirmationService: ConfirmationService) {}
+    constructor(
+        private _categoryService: CategoryService,
+        private _messageService: MessageService,
+        private _confirmationService: ConfirmationService,
+        private _router: Router
+    ) {}
 
     ngOnInit(): void {
         this.getCategories();
@@ -22,7 +28,9 @@ export class CategoriesListComponent implements OnInit {
         });
     }
 
-    onEditCategory() {}
+    onUpdateCategory(categoryId: string) {
+        this._router.navigate(['/categories/category-from/', categoryId]);
+    }
 
     onDeleteCategory(categoryId: string) {
         this._confirmationService.confirm({

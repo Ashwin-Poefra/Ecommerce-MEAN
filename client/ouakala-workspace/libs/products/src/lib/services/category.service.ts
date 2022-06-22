@@ -15,8 +15,16 @@ export class CategoryService {
         return this._httpClient.get<Category[]>(`${this.baseUrl}`);
     }
 
+    public getCategoryById(categoryId: string): Observable<Category> {
+        return this._httpClient.get<Category>(`${this.baseUrl}/${categoryId}`);
+    }
+
     public createCategory(category: Category): Observable<Category> {
         return this._httpClient.post<Category>(`${this.baseUrl}`, category);
+    }
+
+    public updateCategory(category: Category, categoryId: string): Observable<Category> {
+        return this._httpClient.put<Category>(`${this.baseUrl}/${categoryId}`, category);
     }
 
     public deleteCategory(categoryId: string): Observable<object> {

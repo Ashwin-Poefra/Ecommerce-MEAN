@@ -14,7 +14,8 @@ const routes: Routes = [
         children: [
             { path: ConstantsRoutes.DASHBOARD, component: DashboardComponent },
             { path: ConstantsRoutes.CATEGORIES, component: CategoriesListComponent },
-            { path: ConstantsRoutes.CATEGORY_FORM, component: CategoryFormComponent },
+            { path: ConstantsRoutes.CATEGORY_FORM_NEW, component: CategoryFormComponent },
+            { path: ConstantsRoutes.CATEGORY_FORM_EDIT, component: CategoryFormComponent },
         ]
     }
 ];

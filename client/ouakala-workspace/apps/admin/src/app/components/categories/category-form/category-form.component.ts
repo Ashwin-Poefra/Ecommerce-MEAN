@@ -3,7 +3,7 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from
 import { Category, CategoryService } from '@ouakala-workspace/products';
 import { MessageService } from 'primeng/api';
 import { Location } from '@angular/common';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 @Component({
     selector: 'admin-category-form',
     templateUrl: './category-form.component.html'
@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 export class CategoryFormComponent implements OnInit {
     public category!: Category;
     public categoryForm!: FormGroup;
+    public editMode = false;
     public showSpinner = false;
     public isSubmitted = false;
 
@@ -20,11 +21,13 @@ export class CategoryFormComponent implements OnInit {
         private _messageService: MessageService,
         private _formBuilder: FormBuilder,
         private _router: Router,
+        private _activatedRoute: ActivatedRoute,
         private _location: Location
     ) {}
 
     ngOnInit(): void {
         this.buildCategoryForm();
+        this.checkEditMode();
     }
 
     private buildCategoryForm() {
@@ -39,7 +42,11 @@ export class CategoryFormComponent implements OnInit {
     }
 
     public onSubmit() {
-        this.saveCategory();
+        if (!this.editMode) {
+            this.saveCategory();
+        } else {
+            this.updateCategory();
+        }
     }
 
     private saveCategory() {
@@ -70,6 +77,51 @@ export class CategoryFormComponent implements OnInit {
                 }
             );
         }
+    }
+
+    private updateCategory() {
+        this.isSubmitted = true;
+
+        if (this.categoryForm.valid) {
+            this.showSpinner = true;
+
+            this.category.name = this.categoryFromControls['name'].value;
+            this.category.icon = this.categoryFromControls['icon'].value;
+            if (this.category.id) {
+                this._categoryService.updateCategory(this.category, this.category.id).subscribe(
+                    (response) => {
+                        this.showSpinner = false;
+                        this.isSubmitted = false;
+                        this._messageService.add({
+                            severity: 'success',
+                            summary: 'Success',
+                            detail: '(' + response.name + ') has ben updated successfully'
+                        });
+                        setTimeout(() => {
+                            this._router.navigateByUrl('/categories');
+                        }, 2000);
+                    },
+                    (error) => {
+                        this._messageService.add({ severity: 'error', summary: 'Error', detail: 'An Error occurred: ' + error });
+                    }
+                );
+            }
+        }
+    }
+
+    private checkEditMode() {
+        this._activatedRoute.params.subscribe((params) => {
+            const categoryId = params['categoryId'];
+            if (categoryId) {
+                this.editMode = true;
+
+                this._categoryService.getCategoryById(categoryId).subscribe((response) => {
+                    this.category = response;
+                    this.categoryFromControls['name'].setValue(this.category.name);
+                    this.categoryFromControls['icon'].setValue(this.category.icon);
+                });
+            }
+        });
     }
 
     public onCancel() {
