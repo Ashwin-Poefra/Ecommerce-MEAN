@@ -12,7 +12,7 @@ export class ProductsListComponent implements OnInit {
     public products: Product[] = [];
 
     constructor(
-        private _productservice: ProductService,
+        private _productService: ProductService,
         private _messageService: MessageService,
         private _confirmationService: ConfirmationService,
         private _router: Router
@@ -23,12 +23,44 @@ export class ProductsListComponent implements OnInit {
     }
 
     public getProducts() {
-        return this._productservice.getProducts().subscribe((response) => {
+        return this._productService.getProducts().subscribe((response) => {
             this.products = response;
         });
     }
     public onUpdateProduct(productId: string) {
       this._router.navigate(['/products/product-from/', productId]);
     }
-    public onDeleteProduct(productId: string) {}
+
+    public onDeleteProduct(productId: string) {
+      this._confirmationService.confirm({
+          message: 'Are you sure that you want to perform this action?',
+          header: 'Delete Product',
+          icon: 'pi pi-exclamation-triangle',
+          accept: () => {
+              this._productService.deleteProduct(productId).subscribe(
+                  (response) => {
+                      this.getProducts();
+                      this._messageService.add({
+                          severity: 'success',
+                          summary: 'Success',
+                          detail: 'Product has ben deleted successfully'
+                      });
+                  },
+                  (error) => {
+                      this._messageService.add({ severity: 'error', summary: 'Error', detail: 'An Error occurred: ' + error });
+                  }
+              );
+          },
+          reject: (type: ConfirmEventType) => {
+              switch (type) {
+                  case ConfirmEventType.REJECT:
+                      this._messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected' });
+                      break;
+                  case ConfirmEventType.CANCEL:
+                      this._messageService.add({ severity: 'warn', summary: 'Cancelled', detail: 'You have cancelled' });
+                      break;
+              }
+          }
+      });
+  }
 }
