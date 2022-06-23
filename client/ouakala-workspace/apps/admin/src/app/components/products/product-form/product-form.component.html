@@ -77,7 +77,21 @@
                           <small *ngIf="productFromControls['countInStock'].invalid  && isSubmitted" class="p-error">Stock is Required.</small>
                       </div>
                       <div class="field col-4">
-                          <label for="brand">Category</label>
+                          <label for="category">Category</label>
+                          <p-dropdown
+                          id="category"
+                          formControlName="category"
+                          [options]="categories"
+                          optionLabel="name"
+                          optionValue="id"
+                          [filter]="true"
+                          filterBy="name"
+                          [showClear]="true"
+                          placeholder="Select a Category"
+                          ></p-dropdown>
+                          <small *ngIf="productFromControls['category'].invalid && isSubmitted" class="p-error"
+                          >Category is required</small
+                        >
                       </div>
                       <div class="field col-4">
                         <label for="isFeatured">Is Featured</label><br />
@@ -86,6 +100,7 @@
                     <div class="p-field col-12">
                       <label for="description">Description</label><br />
                       <textarea
+                        id="description"
                         pInputTextarea
                         formControlName="description"
                         [rows]="7"

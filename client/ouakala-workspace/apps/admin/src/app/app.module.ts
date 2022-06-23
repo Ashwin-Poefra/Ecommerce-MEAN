@@ -28,6 +28,7 @@ import { ImageModule } from 'primeng/image';
 import {InputNumberModule} from 'primeng/inputnumber';
 import {InputSwitchModule} from 'primeng/inputswitch';
 import {InputTextareaModule} from 'primeng/inputtextarea';
+import {DropdownModule} from 'primeng/dropdown';
 
 import { MessageService } from 'primeng/api';
 import { ConfirmationService } from 'primeng/api';
@@ -46,6 +47,8 @@ const UX_MODULE = [
     InputNumberModule,
     InputSwitchModule,
     InputTextareaModule,
+    DropdownModule,
+
 ];
 @NgModule({
     declarations: [
