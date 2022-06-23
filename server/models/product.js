@@ -11,7 +11,7 @@ const productSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  longDescription: {
+  richDescription: {
     type: String,
     default: "",
   },

@@ -27,6 +27,8 @@ export class ProductsListComponent implements OnInit {
             this.products = response;
         });
     }
-    public onUpdateProduct(productId: string) {}
+    public onUpdateProduct(productId: string) {
+      this._router.navigate(['/products/product-from/', productId]);
+    }
     public onDeleteProduct(productId: string) {}
 }

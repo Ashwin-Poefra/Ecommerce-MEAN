@@ -121,7 +121,7 @@ router.post(`/`, uploadOptions.single("image"), async (req, res) => {
   let product = new Product({
     name: req.body.name,
     description: req.body.description,
-    longDescription: req.body.longDescription,
+    richDescription: req.body.richDescription,
     image: fullImagePath,
     brand: req.body.brand,
     price: req.body.price,
@@ -169,7 +169,7 @@ router.put(`/:id`, uploadOptions.single("image"), async (req, res) => {
     {
       name: req.body.name,
       description: req.body.description,
-      longDescription: req.body.longDescription,
+      richDescription: req.body.richDescription,
       image: fullImagePath,
       brand: req.body.brand,
       price: req.body.price,

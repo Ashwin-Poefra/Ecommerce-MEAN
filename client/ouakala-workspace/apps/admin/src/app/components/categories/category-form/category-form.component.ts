@@ -75,6 +75,7 @@ export class CategoryFormComponent implements OnInit {
                     }, 2000);
                 },
                 (error) => {
+                    this.showSpinner = false;
                     this._messageService.add({ severity: 'error', summary: 'Error', detail: 'An Error occurred: ' + error });
                 }
             );
@@ -106,6 +107,7 @@ export class CategoryFormComponent implements OnInit {
                         }, 2000);
                     },
                     (error) => {
+                        this.showSpinner = false;
                         this._messageService.add({ severity: 'error', summary: 'Error', detail: 'An Error occurred: ' + error });
                     }
                 );
