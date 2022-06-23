@@ -6,7 +6,7 @@ import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
-    selector: 'product-form',
+    selector: 'admin-product-form',
     templateUrl: './product-form.component.html',
     styles: []
 })
@@ -17,7 +17,7 @@ export class ProductFormComponent implements OnInit {
     public editMode = false;
     public showSpinner = false;
     public isSubmitted = false;
-
+    public imageDisplay!: string | ArrayBuffer | null;
     constructor(
         private _productService: ProductService,
         private _categoryService: CategoryService,
@@ -51,10 +51,29 @@ export class ProductFormComponent implements OnInit {
         return this.productForm.controls;
     }
     public getCategories() {
-      return this._categoryService.getCategories().subscribe((response) => {
-          this.categories = response;
-      });
-  }
+        return this._categoryService.getCategories().subscribe((response) => {
+            this.categories = response;
+        });
+    }
+
+    onImageUpload(event: Event) {
+      const file = (event.target as HTMLInputElement).files?.item(0);
+      console.log(file?.type );
+
+      if (!file || !file.type.includes('image')) {
+        return;
+      }
+      if (file) {
+        this.productForm.patchValue({ image: file });
+        this.productFromControls['image'].updateValueAndValidity();
+        const fileReader = new FileReader();
+        fileReader.onload = () => {
+          this.imageDisplay = fileReader.result;
+        };
+        fileReader.readAsDataURL(file);
+      }
+    }
+
     public onSubmit() {}
     public onCancel() {}
 }
