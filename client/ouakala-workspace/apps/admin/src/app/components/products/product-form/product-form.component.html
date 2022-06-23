@@ -117,6 +117,9 @@
                     <div class="field col-12">
                       <label for="image">Product Image</label><br />
                       <input type="file" class="p-inputtext" accept="image/*" (change)="onImageUpload($event)"/>
+                      <small *ngIf="productFromControls['image'].invalid && isSubmitted" class="p-error"
+                      >Image is required</small
+                    >
                     </div>
                     <div class="p-col-2 p-mt-2 p-pl-0">
                       <img style="width: 100%" [src]="imageDisplay ? imageDisplay :'/assets/images/empty_product.png'" alt="product image" />

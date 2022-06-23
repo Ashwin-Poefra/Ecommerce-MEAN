@@ -170,6 +170,8 @@ export class ProductFormComponent implements OnInit {
                     this.productFromControls['image'].setValue(this.product.image);
                     this.productFromControls['isFeatured'].setValue(this.product.isFeatured);
                     this.imageDisplay = this.product.image as string;
+                    this.productFromControls['image'].setValidators([]);
+                    this.productFromControls['image'].updateValueAndValidity();
                 });
             }
         });
