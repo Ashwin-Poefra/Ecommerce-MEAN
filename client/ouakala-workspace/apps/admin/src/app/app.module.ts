@@ -33,6 +33,7 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { DropdownModule } from 'primeng/dropdown';
 import { EditorModule } from 'primeng/editor';
 import { TagModule } from 'primeng/tag';
+import {InputMaskModule} from 'primeng/inputmask';
 
 import { MessageService } from 'primeng/api';
 import { ConfirmationService } from 'primeng/api';
@@ -54,6 +55,7 @@ const UX_MODULE = [
     DropdownModule,
     EditorModule,
     TagModule,
+    InputMaskModule,
 ];
 @NgModule({
     declarations: [
