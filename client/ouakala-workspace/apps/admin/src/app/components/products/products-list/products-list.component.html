@@ -32,9 +32,10 @@
                         <tr>
                             <td>{{ index+1 }}</td>
                             <td>{{ product.name }}</td>
+                            <td></td>
                             <td>{{ product.price }}</td>
                             <td>{{ product.countInStock }}</td>
-                            <td>{{ product.category }}</td>
+                            <td>{{ product.category.name }}</td>
                             <td>{{ product.createdDate }}</td>
                             <td>
                               <button pButton type="button" icon="pi pi-pencil" label="Edit" class="p-button-success mr-2" iconPos="left" (click)="onUpdateProduct(product.id)"></button>

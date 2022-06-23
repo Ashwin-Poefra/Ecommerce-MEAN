@@ -12,6 +12,8 @@ import { SidebarComponent } from './shared/sidebar/sidebar.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { CategoriesListComponent } from './components/categories/categories-list/categories-list.component';
 import { CategoryFormComponent } from './components/categories/category-form/category-form.component';
+import { ProductsListComponent } from './components/products/products-list/products-list.component';
+import { ProductFormComponent } from './components/products/product-form/product-form.component';
 
 import { CardModule } from 'primeng/card';
 import { ToolbarModule } from 'primeng/toolbar';
@@ -20,12 +22,11 @@ import { TableModule } from 'primeng/table';
 import { InputTextModule } from 'primeng/inputtext';
 import { ColorPickerModule } from 'primeng/colorpicker';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
-import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
-import { ConfirmationService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { ProductsListComponent } from './components/products/products-list/products-list.component';
-import { ProductFormComponent } from './components/products/product-form/product-form.component';
+
+import { MessageService } from 'primeng/api';
+import { ConfirmationService } from 'primeng/api';
 
 const UX_MODULE = [
     CardModule,
@@ -39,7 +40,17 @@ const UX_MODULE = [
     ConfirmDialogModule
 ];
 @NgModule({
-    declarations: [AppComponent, NxWelcomeComponent, ShellComponent, SidebarComponent, DashboardComponent, CategoriesListComponent, CategoryFormComponent, ProductsListComponent, ProductFormComponent],
+    declarations: [
+        AppComponent,
+        NxWelcomeComponent,
+        ShellComponent,
+        SidebarComponent,
+        DashboardComponent,
+        CategoriesListComponent,
+        CategoryFormComponent,
+        ProductsListComponent,
+        ProductFormComponent
+    ],
     imports: [BrowserModule, BrowserAnimationsModule, AppRoutingModule, HttpClientModule, ReactiveFormsModule, ...UX_MODULE],
     providers: [MessageService, ConfirmationService],
     bootstrap: [AppComponent]
