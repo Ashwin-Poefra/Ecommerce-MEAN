@@ -14,4 +14,8 @@ export class ProductService {
     public getProducts(): Observable<Product[]> {
         return this._httpClient.get<Product[]>(`${this.baseUrl}`);
     }
+
+    public createProduct(productData: FormData): Observable<Product> {
+        return this._httpClient.post<Product>(`${this.baseUrl}`, productData);
+    }
 }

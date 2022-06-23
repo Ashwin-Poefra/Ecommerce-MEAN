@@ -57,23 +57,56 @@ export class ProductFormComponent implements OnInit {
     }
 
     onImageUpload(event: Event) {
-      const file = (event.target as HTMLInputElement).files?.item(0);
-      console.log(file?.type );
+        const file = (event.target as HTMLInputElement).files?.item(0);
 
-      if (!file || !file.type.includes('image')) {
-        return;
-      }
-      if (file) {
-        this.productForm.patchValue({ image: file });
-        this.productFromControls['image'].updateValueAndValidity();
-        const fileReader = new FileReader();
-        fileReader.onload = () => {
-          this.imageDisplay = fileReader.result;
-        };
-        fileReader.readAsDataURL(file);
-      }
+        if (!file || !file.type.includes('image')) {
+            return;
+        }
+        if (file) {
+            this.productForm.patchValue({ image: file });
+            this.productFromControls['image'].updateValueAndValidity();
+            const fileReader = new FileReader();
+            fileReader.onload = () => {
+                this.imageDisplay = fileReader.result;
+            };
+            fileReader.readAsDataURL(file);
+        }
     }
 
-    public onSubmit() {}
-    public onCancel() {}
+    public onSubmit() {
+        this.saveProduct();
+    }
+
+    private saveProduct() {
+        this.isSubmitted = true;
+        if (this.productForm.invalid) return;
+
+        if (this.productForm.valid) {
+            const productFormData = new FormData();
+            Object.keys(this.productFromControls).map((key) => {
+                productFormData.append(key, this.productFromControls[key].value);
+            });
+
+            this._productService.createProduct(productFormData).subscribe(
+                (response) => {
+                    this.showSpinner = false;
+                    this.isSubmitted = false;
+                    this._messageService.add({
+                        severity: 'success',
+                        summary: 'Success',
+                        detail: '(' + response.name + ') has ben saved successfully'
+                    });
+                    setTimeout(() => {
+                        this._router.navigateByUrl('/products');
+                    }, 2000);
+                },
+                (error) => {
+                    this._messageService.add({ severity: 'error', summary: 'Error', detail: 'An Error occurred: ' + error });
+                }
+            );
+        }
+    }
+    public onCancel() {
+        this._location.back();
+    }
 }

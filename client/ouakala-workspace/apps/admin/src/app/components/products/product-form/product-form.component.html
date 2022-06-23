@@ -119,7 +119,7 @@
                       <input type="file" class="p-inputtext" accept="image/*" (change)="onImageUpload($event)"/>
                     </div>
                     <div class="p-col-2 p-mt-2 p-pl-0">
-                      <img style="width: 100%" [src]="imageDisplay" alt="product image" />
+                      <img style="width: 100%" [src]="imageDisplay ? imageDisplay :'/assets/images/empty_product.png'" alt="product image" />
                     </div>
                   </div>
                 </form>
