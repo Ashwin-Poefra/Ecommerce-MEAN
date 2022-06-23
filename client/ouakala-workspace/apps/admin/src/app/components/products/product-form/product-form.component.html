@@ -97,7 +97,7 @@
                         <label for="isFeatured">Is Featured</label><br />
                         <p-inputSwitch formControlName="isFeatured"></p-inputSwitch>
                     </div>
-                    <div class="p-field col-12">
+                    <div class="field col-12">
                       <label for="description">Description</label><br />
                       <textarea
                         id="description"
@@ -109,6 +109,10 @@
                       <small *ngIf="productFromControls['description'].invalid && isSubmitted" class="p-error"
                         >Description is required</small
                       >
+                    </div>
+                    <div class="field col-12">
+                      <label for="richDescription">Product Details</label><br />
+                      <p-editor formControlName="richDescription" [style]="{ height: '320px' }"></p-editor>
                     </div>
                   </div>
                 </form>
