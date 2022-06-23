@@ -72,7 +72,19 @@
                             <label for="city">City</label>
                             <input formControlName="city" id="city" type="text" pInputText />
                         </div>
-                        <div class="field col-4"><label for="country">Country</label><br /></div>
+                        <div class="field col-4">
+                          <label for="country">Country</label><br />
+                          <p-dropdown
+                          [options]="countries"
+                          formControlName="country"
+                          optionLabel="name"
+                          optionValue="id"
+                          [filter]="true"
+                          filterBy="name"
+                          [showClear]="true"
+                          placeholder="Select a Country"
+                        ></p-dropdown>
+                        </div>
                     </div>
                 </form>
             </div>

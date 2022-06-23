@@ -11,6 +11,7 @@ import { Location } from '@angular/common';
 })
 export class UserFormComponent implements OnInit {
     public user!: User;
+    public countries:{ id: string; name: string; }[] = [];
     public userForm!: FormGroup;
     public editMode = false;
     public showSpinner = false;
@@ -28,6 +29,7 @@ export class UserFormComponent implements OnInit {
     ngOnInit(): void {
         this.buildUserForm();
         this.checkEditMode();
+        this.getCountries();
     }
 
     private buildUserForm() {
@@ -49,13 +51,17 @@ export class UserFormComponent implements OnInit {
         return this.userForm.controls;
     }
 
+    private getCountries() {
+      this.countries = this._userService.getCountries();
+    }
+
     public onSubmit() {
-      if (!this.editMode) {
-          this.saveUser();
-      } else {
-          this.updateUser();
-      }
-  }
+        if (!this.editMode) {
+            this.saveUser();
+        } else {
+            this.updateUser();
+        }
+    }
     private saveUser() {
         this.isSubmitted = true;
 
