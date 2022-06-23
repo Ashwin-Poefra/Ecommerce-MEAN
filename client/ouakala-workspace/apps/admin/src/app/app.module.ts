@@ -25,6 +25,9 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { ToastModule } from 'primeng/toast';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ImageModule } from 'primeng/image';
+import {InputNumberModule} from 'primeng/inputnumber';
+import {InputSwitchModule} from 'primeng/inputswitch';
+import {InputTextareaModule} from 'primeng/inputtextarea';
 
 import { MessageService } from 'primeng/api';
 import { ConfirmationService } from 'primeng/api';
@@ -40,6 +43,9 @@ const UX_MODULE = [
     ToastModule,
     ConfirmDialogModule,
     ImageModule,
+    InputNumberModule,
+    InputSwitchModule,
+    InputTextareaModule,
 ];
 @NgModule({
     declarations: [
