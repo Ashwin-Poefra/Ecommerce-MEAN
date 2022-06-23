@@ -32,11 +32,17 @@
                         <tr>
                             <td>{{ index+1 }}</td>
                             <td>{{ product.name }}</td>
-                            <td></td>
+                            <td>
+                              <p-image [src]="product.image" alt="Image" width="100" [preview]="true">
+                                <ng-template pTemplate="indicator">
+                                    <i class="pi pi-eye"></i>
+                                </ng-template>
+                            </p-image>
+                            </td>
                             <td>{{ product.price }}</td>
                             <td>{{ product.countInStock }}</td>
-                            <td>{{ product.category.name }}</td>
-                            <td>{{ product.createdDate }}</td>
+                            <td>{{ product.category?.name }}</td>
+                            <td>{{ product.createdDate | date: 'short' }}</td>
                             <td>
                               <button pButton type="button" icon="pi pi-pencil" label="Edit" class="p-button-success mr-2" iconPos="left" (click)="onUpdateProduct(product.id)"></button>
                               <button pButton type="button" icon="pi pi-trash" label="Delete" class="p-button-danger" iconPos="left" (click)="onDeleteProduct(product.id)"></button>

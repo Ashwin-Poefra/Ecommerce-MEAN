@@ -24,6 +24,7 @@ import { ColorPickerModule } from 'primeng/colorpicker';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { ToastModule } from 'primeng/toast';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ImageModule } from 'primeng/image';
 
 import { MessageService } from 'primeng/api';
 import { ConfirmationService } from 'primeng/api';
@@ -37,7 +38,8 @@ const UX_MODULE = [
     ColorPickerModule,
     ProgressSpinnerModule,
     ToastModule,
-    ConfirmDialogModule
+    ConfirmDialogModule,
+    ImageModule,
 ];
 @NgModule({
     declarations: [
