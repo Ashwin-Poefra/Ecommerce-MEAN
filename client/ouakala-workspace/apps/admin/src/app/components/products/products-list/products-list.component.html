@@ -1,0 +1,49 @@
+<p-toast></p-toast>
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+
+<div class="admin-page">
+    <p-card header="Products" subheader="List of all products">
+        <div class="grid">
+            <div class="col-12">
+                <p-toolbar>
+                    <div class="p-toolbar-group-left">
+                        <p-button label="New" icon="pi pi-plus" routerLink="/products/product-from"></p-button>
+                    </div>
+                </p-toolbar>
+            </div>
+        </div>
+
+        <div class="grid">
+            <div class="col-12">
+                <p-table [value]="products" styleClass="p-datatable-gridlines" responsiveLayout="scroll">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>ID</th>
+                            <th pSortableColumn="name">NAME  <p-sortIcon field="name"></p-sortIcon></th>
+                            <th>IMAGE</th>
+                            <th pSortableColumn="price">PRICE  <p-sortIcon field="price"></p-sortIcon></th>
+                            <th pSortableColumn="countInStock">STOCK  <p-sortIcon field="countInStock"></p-sortIcon></th>
+                            <th pSortableColumn="category">CATEGORY  <p-sortIcon field="category"></p-sortIcon></th>
+                            <th pSortableColumn="createdDate">CREATED At  <p-sortIcon field="createdDate"></p-sortIcon></th>
+                            <th>ACTION</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-product  let-index="rowIndex">
+                        <tr>
+                            <td>{{ index+1 }}</td>
+                            <td>{{ product.name }}</td>
+                            <td>{{ product.price }}</td>
+                            <td>{{ product.countInStock }}</td>
+                            <td>{{ product.category }}</td>
+                            <td>{{ product.createdDate }}</td>
+                            <td>
+                              <button pButton type="button" icon="pi pi-pencil" label="Edit" class="p-button-success mr-2" iconPos="left" (click)="onUpdateProduct(product.id)"></button>
+                              <button pButton type="button" icon="pi pi-trash" label="Delete" class="p-button-danger" iconPos="left" (click)="onDeleteProduct(product.id)"></button>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </div>
+    </p-card>
+</div>

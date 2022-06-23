@@ -24,6 +24,8 @@ import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { ConfirmationService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ProductsListComponent } from './components/products/products-list/products-list.component';
+import { ProductFormComponent } from './components/products/product-form/product-form.component';
 
 const UX_MODULE = [
     CardModule,
@@ -37,7 +39,7 @@ const UX_MODULE = [
     ConfirmDialogModule
 ];
 @NgModule({
-    declarations: [AppComponent, NxWelcomeComponent, ShellComponent, SidebarComponent, DashboardComponent, CategoriesListComponent, CategoryFormComponent],
+    declarations: [AppComponent, NxWelcomeComponent, ShellComponent, SidebarComponent, DashboardComponent, CategoriesListComponent, CategoryFormComponent, ProductsListComponent, ProductFormComponent],
     imports: [BrowserModule, BrowserAnimationsModule, AppRoutingModule, HttpClientModule, ReactiveFormsModule, ...UX_MODULE],
     providers: [MessageService, ConfirmationService],
     bootstrap: [AppComponent]
