@@ -45,7 +45,7 @@
                               [rounded]="true"
                             ></p-tag>
                             </td>
-                            <td>{{ user.country }}</td>
+                            <td>{{ getCountryName(user.country) }}</td>
 
                             <td>
                               <button pButton type="button" icon="pi pi-pencil" label="Edit" class="p-button-success mr-2" iconPos="left" (click)="onUpdateUser(user.id)"></button>
