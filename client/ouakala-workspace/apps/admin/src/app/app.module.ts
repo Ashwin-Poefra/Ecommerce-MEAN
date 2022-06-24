@@ -37,10 +37,10 @@ import { EditorModule } from 'primeng/editor';
 import { TagModule } from 'primeng/tag';
 import { InputMaskModule } from 'primeng/inputmask';
 import { FieldsetModule } from 'primeng/fieldset';
+import { UsersModule } from '@ouakala-workspace/users';
 
 import { MessageService } from 'primeng/api';
 import { ConfirmationService } from 'primeng/api';
-import { UsersModule } from '@ouakala-workspace/users';
 
 const UX_MODULE = [
     CardModule,
