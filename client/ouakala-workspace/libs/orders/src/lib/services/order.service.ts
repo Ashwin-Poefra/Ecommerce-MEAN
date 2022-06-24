@@ -14,4 +14,8 @@ export class OrderService {
     public getOrders(): Observable<Order[]> {
         return this._httpClient.get<Order[]>(`${this.baseUrl}`);
     }
+
+    public getOrderById(orderId: string): Observable<Order> {
+        return this._httpClient.get<Order>(`${this.baseUrl}/${orderId}`);
+    }
 }
