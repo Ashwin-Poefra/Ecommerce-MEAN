@@ -1,4 +1,6 @@
+import { Product } from "@ouakala-workspace/products";
+
 export class OrderItem {
-    product?: string;
+    product?: Product;
     quantity?: number;
 }

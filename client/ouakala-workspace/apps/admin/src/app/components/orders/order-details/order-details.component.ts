@@ -19,7 +19,7 @@ export class OrderDetailsComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
-      this.getOrderDetails()
+        this.getOrderDetails();
     }
 
     public getOrderDetails() {
@@ -31,5 +31,10 @@ export class OrderDetailsComponent implements OnInit {
                 });
             }
         });
+    }
+
+    public SubtotalPrice(price: number, quantity: number) {
+        const subTotal = price * quantity;
+        return subTotal;
     }
 }

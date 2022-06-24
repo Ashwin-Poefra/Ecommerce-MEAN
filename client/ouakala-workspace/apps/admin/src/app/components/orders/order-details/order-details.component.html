@@ -23,8 +23,32 @@
                     </div>
                 </p-fieldset>
             </div>
-            <div class="col-12">
-                <p-fieldset legend="Order Items" [toggleable]="true"> Content </p-fieldset>
+            <div class="col-12" *ngIf="order.orderItems">
+                <p-fieldset legend="Order Items" [toggleable]="true">
+                    <div class="grid mb-5">
+                        <div class="col-2 text-bold">Name</div>
+                        <div class="col-2 text-bold">Brand</div>
+                        <div class="col-2 text-bold">Category</div>
+                        <div class="col-2 text-bold">Price</div>
+                        <div class="col-2 text-bold">Quantity</div>
+                        <div class="col-2 text-bold">Subtotal</div>
+                    </div>
+                    <div class="grid mb-5" *ngFor="let orderItem of order.orderItems">
+                        <div class="col-2">{{ orderItem.product?.name }}</div>
+                        <div class="col-2">{{ orderItem.product?.brand }}</div>
+                        <div class="col-2">{{ orderItem.product?.category?.name }}</div>
+                        <div class="col-2">{{ orderItem.product?.price | currency }}</div>
+                        <div class="col-2">{{ orderItem.quantity }}</div>
+                        <div class="col-2" *ngIf="orderItem?.product?.price && orderItem?.quantity">
+                            {{ SubtotalPrice(orderItem.product?.price!, orderItem?.quantity!) | currency }}
+                        </div>
+                    </div>
+                    <div class="grid" style="color: green">
+                        <div class="col-2 col-offset-8 text-bold">Total Price</div>
+
+                        <div class="col-2 text-bold">{{ order.totalPrice | currency }}</div>
+                    </div>
+                </p-fieldset>
             </div>
             <div class="col-12">
                 <p-fieldset legend="Order Address" [toggleable]="true"> Content </p-fieldset>
