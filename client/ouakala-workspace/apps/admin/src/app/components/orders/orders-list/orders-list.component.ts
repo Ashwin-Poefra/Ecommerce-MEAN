@@ -2,29 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Order, OrderService } from '@ouakala-workspace/orders';
 import { MessageService, ConfirmEventType, ConfirmationService } from 'primeng/api';
+import { ORDER_STATUS } from '../../../constants/order.status';
 
-const ORDER_STATUS: any = {
-    0: {
-        label: 'Pending',
-        color: 'primary'
-    },
-    1: {
-        label: 'Processed',
-        color: 'warning'
-    },
-    2: {
-        label: 'Shipped',
-        color: 'warning'
-    },
-    3: {
-        label: 'Delivered',
-        color: 'success'
-    },
-    4: {
-        label: 'Failed',
-        color: 'danger'
-    }
-};
+
 @Component({
     selector: 'admin-orders-list',
     templateUrl: './orders-list.component.html',

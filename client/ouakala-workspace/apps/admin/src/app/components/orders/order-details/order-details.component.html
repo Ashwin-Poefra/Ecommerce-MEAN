@@ -1,6 +1,18 @@
 <p-toast></p-toast>
 <div class="admin-page" *ngIf="order">
     <p-card header="Orders" subheader="You can edit order status here">
+      <div class="grid mb-3">
+        <div class="col-12">
+            <p-toolbar>
+                <div class="p-toolbar-group-left">
+                  <p-button label="Cancel" icon="pi pi-arrow-circle-left" styleClass="p-button-secondary" (onClick)="onCancel()"></p-button>
+                </div>
+
+                <div class="p-toolbar-group-right">
+                </div>
+            </p-toolbar>
+        </div>
+    </div>
         <div class="grid">
             <div class="col-12">
                 <p-fieldset legend="Order Details" [toggleable]="true">
@@ -15,6 +27,14 @@
                         </div>
                         <div class="col-4">
                             <h5>Order Status</h5>
+                            <p-dropdown
+                            [options]="orderStatuses"
+                            optionLabel="name"
+                            optionValue="id"
+                            (onChange)="onStatusChange($event)"
+                            [(ngModel)]="selectedStatus"
+                          >
+                          </p-dropdown>
                         </div>
                         <div class="col-4">
                             <h5>Order Total Price</h5>

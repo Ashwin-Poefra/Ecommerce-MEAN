@@ -18,4 +18,8 @@ export class OrderService {
     public getOrderById(orderId: string): Observable<Order> {
         return this._httpClient.get<Order>(`${this.baseUrl}/${orderId}`);
     }
+
+    public updateOrder(orderStatus: { status: string }, orderId: string): Observable<Order> {
+        return this._httpClient.put<Order>(`${this.baseUrl}/${orderId}`, orderStatus);
+    }
 }
