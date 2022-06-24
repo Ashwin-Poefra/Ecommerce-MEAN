@@ -51,7 +51,29 @@
                 </p-fieldset>
             </div>
             <div class="col-12">
-                <p-fieldset legend="Order Address" [toggleable]="true"> Content </p-fieldset>
+                <p-fieldset legend="Order Address" [toggleable]="true">
+                    <div class="grid">
+                        <div class="col-4">
+                            <h5>Order Address</h5>
+                            <p>
+                                {{ order.shippingAddress1 }}<br />
+                                {{ order.shippingAddress2 }}<br />
+                                {{ order.zip }} {{ order.city }}<br />
+                                {{ order.country }}
+                            </p>
+                        </div>
+
+                        <div class="col-4">
+                            <h5>Customer Info</h5>
+                            <p>{{ order.user?.name }}</p>
+                        </div>
+
+                        <div class="col-4">
+                            <h5>Contact Info</h5>
+                            <p>{{ order.phone }}</p>
+                        </div>
+                    </div>
+                </p-fieldset>
             </div>
         </div>
     </p-card>
