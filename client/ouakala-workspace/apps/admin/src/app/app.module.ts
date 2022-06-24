@@ -40,6 +40,7 @@ import { FieldsetModule } from 'primeng/fieldset';
 
 import { MessageService } from 'primeng/api';
 import { ConfirmationService } from 'primeng/api';
+import { UsersModule } from '@ouakala-workspace/users';
 
 const UX_MODULE = [
     CardModule,
@@ -77,7 +78,7 @@ const UX_MODULE = [
         OrdersListComponent,
         OrderDetailsComponent
     ],
-    imports: [BrowserModule, BrowserAnimationsModule, AppRoutingModule, HttpClientModule, FormsModule, ReactiveFormsModule, ...UX_MODULE],
+    imports: [BrowserModule, BrowserAnimationsModule, AppRoutingModule, HttpClientModule, FormsModule, ReactiveFormsModule, UsersModule, ...UX_MODULE],
     providers: [MessageService, ConfirmationService],
     bootstrap: [AppComponent]
 })
