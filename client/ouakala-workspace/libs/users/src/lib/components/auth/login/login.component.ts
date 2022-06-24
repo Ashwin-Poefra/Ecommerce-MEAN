@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../../../services/authentication.service';
+import { LocalStorageService } from '../../../services/local-storage.service';
 @Component({
     selector: 'users-login',
     templateUrl: './login.component.html'
@@ -13,7 +14,12 @@ export class LoginComponent implements OnInit {
     public authError = false;
     public authMessage = '';
 
-    constructor(private _authenticationService: AuthenticationService, private _formBuilder: FormBuilder, private _router: Router) {}
+    constructor(
+        private _authenticationService: AuthenticationService,
+        private _localStorageService: LocalStorageService,
+        private _formBuilder: FormBuilder,
+        private _router: Router
+    ) {}
 
     ngOnInit(): void {
         this.buildCategoryForm();
@@ -41,6 +47,7 @@ export class LoginComponent implements OnInit {
             (response) => {
                 this.isSubmitted = false;
                 this.authError = false;
+                this._localStorageService.setToken(response.token as string);
             },
             (error) => {
                 this.authError = true;
