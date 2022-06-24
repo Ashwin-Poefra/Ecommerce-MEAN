@@ -16,6 +16,8 @@ import { ProductsListComponent } from './components/products/products-list/produ
 import { ProductFormComponent } from './components/products/product-form/product-form.component';
 import { UsersListComponent } from './components/users/users-list/users-list.component';
 import { UserFormComponent } from './components/users/user-form/user-form.component';
+import { OrdersListComponent } from './components/orders/orders-list/orders-list.component';
+import { OrderDetailsComponent } from './components/orders/order-details/order-details.component';
 
 import { CardModule } from 'primeng/card';
 import { ToolbarModule } from 'primeng/toolbar';
@@ -69,7 +71,9 @@ const UX_MODULE = [
         ProductsListComponent,
         ProductFormComponent,
         UsersListComponent,
-        UserFormComponent
+        UserFormComponent,
+        OrdersListComponent,
+        OrderDetailsComponent
     ],
     imports: [BrowserModule, BrowserAnimationsModule, AppRoutingModule, HttpClientModule, ReactiveFormsModule, ...UX_MODULE],
     providers: [MessageService, ConfirmationService],

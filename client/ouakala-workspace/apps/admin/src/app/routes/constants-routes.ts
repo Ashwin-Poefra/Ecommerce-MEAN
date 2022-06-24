@@ -14,5 +14,8 @@ export class ConstantsRoutes {
   public static readonly USERS: string = 'users';
   public static readonly USER_FORM_NEW: string = 'users/user-from';
   public static readonly USER_FORM_EDIT: string = 'users/user-from/:userId';
+
+  public static readonly ORDERS: string = 'orders';
+  public static readonly ORDER_DETAILS: string = 'orders/order-details/:orderId';
   //#endregion
 }

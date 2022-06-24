@@ -8,6 +8,8 @@ import { ProductsListComponent } from './components/products/products-list/produ
 import { ProductFormComponent } from './components/products/product-form/product-form.component';
 import { UsersListComponent } from './components/users/users-list/users-list.component';
 import { UserFormComponent } from './components/users/user-form/user-form.component';
+import { OrdersListComponent } from './components/orders/orders-list/orders-list.component';
+import { OrderDetailsComponent } from './components/orders/order-details/order-details.component';
 
 import { ConstantsRoutes } from './routes/constants-routes';
 
@@ -26,6 +28,8 @@ const routes: Routes = [
             { path: ConstantsRoutes.USERS, component: UsersListComponent },
             { path: ConstantsRoutes.USER_FORM_NEW, component: UserFormComponent },
             { path: ConstantsRoutes.USER_FORM_EDIT, component: UserFormComponent },
+            { path: ConstantsRoutes.ORDERS, component: OrdersListComponent },
+            { path: ConstantsRoutes.ORDER_DETAILS, component: OrderDetailsComponent },
         ]
     }
 ];
