@@ -1,4 +1,5 @@
 //Base
+@import '~normalize.css/normalize.css';
 @import './base/colors.scss';
 @import './base/fonts.scss';
 @import './base/mixins.scss';
@@ -25,3 +26,10 @@
 
 //Libs
 @import './libs/ui/ui.scss';
+
+.container{
+  width: 1200px;
+  padding: 15px;
+  margin: 0 auto;
+  background-color: var(--surface-100);
+}
