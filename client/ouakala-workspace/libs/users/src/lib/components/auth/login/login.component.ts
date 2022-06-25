@@ -48,6 +48,7 @@ export class LoginComponent implements OnInit {
                 this.isSubmitted = false;
                 this.authError = false;
                 this._localStorageService.setToken(response.token as string);
+                this._router.navigate(['/']);
             },
             (error) => {
                 this.authError = true;
