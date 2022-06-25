@@ -12,11 +12,13 @@ import { OrdersListComponent } from './components/orders/orders-list/orders-list
 import { OrderDetailsComponent } from './components/orders/order-details/order-details.component';
 
 import { ConstantsRoutes } from './routes/constants-routes';
+import { AuthGuardGuard } from '@ouakala-workspace/users';
 
 const routes: Routes = [
     {
         path: ConstantsRoutes.HOME,
         component: ShellComponent,
+        canActivate: [AuthGuardGuard],
         children: [
             { path: ConstantsRoutes.DASHBOARD, component: DashboardComponent },
             { path: ConstantsRoutes.CATEGORIES, component: CategoriesListComponent },
@@ -29,7 +31,7 @@ const routes: Routes = [
             { path: ConstantsRoutes.USER_FORM_NEW, component: UserFormComponent },
             { path: ConstantsRoutes.USER_FORM_EDIT, component: UserFormComponent },
             { path: ConstantsRoutes.ORDERS, component: OrdersListComponent },
-            { path: ConstantsRoutes.ORDER_DETAILS, component: OrderDetailsComponent },
+            { path: ConstantsRoutes.ORDER_DETAILS, component: OrderDetailsComponent }
         ]
     }
 ];
