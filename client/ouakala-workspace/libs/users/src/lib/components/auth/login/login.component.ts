@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
 import { AuthenticationService } from '../../../services/authentication.service';
 import { LocalStorageService } from '../../../services/local-storage.service';
 @Component({
@@ -8,11 +9,12 @@ import { LocalStorageService } from '../../../services/local-storage.service';
     templateUrl: './login.component.html'
     // styles: []
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
     public loginFormGroup!: FormGroup;
     public isSubmitted = false;
     public authError = false;
     public authMessage = '';
+    public endSubscription$: Subject<void> = new Subject();
 
     constructor(
         private _authenticationService: AuthenticationService,
@@ -23,6 +25,11 @@ export class LoginComponent implements OnInit {
 
     ngOnInit(): void {
         this.buildCategoryForm();
+    }
+
+    ngOnDestroy(): void {
+        this.endSubscription$.next();
+        this.endSubscription$.complete();
     }
 
     private buildCategoryForm() {
@@ -43,19 +50,22 @@ export class LoginComponent implements OnInit {
         const email = this.loginFormGroup.controls['email'].value;
         const password = this.loginFormGroup.controls['password'].value;
 
-        this._authenticationService.login(email, password).subscribe(
-            (response) => {
-                this.isSubmitted = false;
-                this.authError = false;
-                this._localStorageService.setToken(response.token as string);
-                this._router.navigate(['/']);
-            },
-            (error) => {
-                this.authError = true;
-                if (error.status !== 400) {
-                    this.authMessage = 'Error in the server, please try again later.';
+        this._authenticationService
+            .login(email, password)
+            .pipe(takeUntil(this.endSubscription$))
+            .subscribe(
+                (response) => {
+                    this.isSubmitted = false;
+                    this.authError = false;
+                    this._localStorageService.setToken(response.token as string);
+                    this._router.navigate(['/']);
+                },
+                (error) => {
+                    this.authError = true;
+                    if (error.status !== 400) {
+                        this.authMessage = 'Error in the server, please try again later.';
+                    }
                 }
-            }
-        );
+            );
     }
 }

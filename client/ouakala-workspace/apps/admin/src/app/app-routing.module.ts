@@ -33,7 +33,8 @@ const routes: Routes = [
             { path: ConstantsRoutes.ORDERS, component: OrdersListComponent },
             { path: ConstantsRoutes.ORDER_DETAILS, component: OrderDetailsComponent }
         ]
-    }
+    },
+    { path: ConstantsRoutes.NOT_FOUND, redirectTo: '', pathMatch: 'full' }
 ];
 
 @NgModule({

@@ -1,15 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { User, UserService } from '@ouakala-workspace/users';
 import { MessageService, ConfirmEventType, ConfirmationService } from 'primeng/api';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
     selector: 'admin-users-list',
     templateUrl: './users-list.component.html',
     styles: []
 })
-export class UsersListComponent implements OnInit {
+export class UsersListComponent implements OnInit, OnDestroy {
     public users: User[] = [];
+    public endSubscription$: Subject<void> = new Subject();
 
     constructor(
         private _userService: UserService,
@@ -22,6 +24,11 @@ export class UsersListComponent implements OnInit {
         this.getUsers();
     }
 
+    ngOnDestroy(): void {
+        this.endSubscription$.next();
+        this.endSubscription$.complete();
+    }
+
     public getCountryName(countryCode: string) {
         let countryName = 'Not Found';
         if (countryCode) {
@@ -32,9 +39,12 @@ export class UsersListComponent implements OnInit {
     }
 
     public getUsers() {
-        return this._userService.getUsers().subscribe((response) => {
-            this.users = response;
-        });
+        return this._userService
+            .getUsers()
+            .pipe(takeUntil(this.endSubscription$))
+            .subscribe((response) => {
+                this.users = response;
+            });
     }
 
     onUpdateUser(userId: string) {
@@ -47,19 +57,22 @@ export class UsersListComponent implements OnInit {
             header: 'Delete User',
             icon: 'pi pi-exclamation-triangle',
             accept: () => {
-                this._userService.deleteUser(userId).subscribe(
-                    (response) => {
-                        this.getUsers();
-                        this._messageService.add({
-                            severity: 'success',
-                            summary: 'Success',
-                            detail: 'User has ben deleted successfully'
-                        });
-                    },
-                    (error) => {
-                        this._messageService.add({ severity: 'error', summary: 'Error', detail: 'An Error occurred: ' + error });
-                    }
-                );
+                this._userService
+                    .deleteUser(userId)
+                    .pipe(takeUntil(this.endSubscription$))
+                    .subscribe(
+                        (response) => {
+                            this.getUsers();
+                            this._messageService.add({
+                                severity: 'success',
+                                summary: 'Success',
+                                detail: 'User has ben deleted successfully'
+                            });
+                        },
+                        (error) => {
+                            this._messageService.add({ severity: 'error', summary: 'Error', detail: 'An Error occurred: ' + error });
+                        }
+                    );
             },
             reject: (type: ConfirmEventType) => {
                 switch (type) {

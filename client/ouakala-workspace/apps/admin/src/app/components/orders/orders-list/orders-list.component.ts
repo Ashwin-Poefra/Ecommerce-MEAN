@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Order, OrderService } from '@ouakala-workspace/orders';
 import { MessageService, ConfirmEventType, ConfirmationService } from 'primeng/api';
+import { Subject, takeUntil } from 'rxjs';
 import { ORDER_STATUS } from '../../../constants/order.status';
 
 @Component({
@@ -9,9 +10,10 @@ import { ORDER_STATUS } from '../../../constants/order.status';
     templateUrl: './orders-list.component.html',
     styles: []
 })
-export class OrdersListComponent implements OnInit {
+export class OrdersListComponent implements OnInit , OnDestroy  {
     public orders: Order[] = [];
     public orderStatus = ORDER_STATUS;
+    public endSubscription$: Subject<void> = new Subject();
 
     constructor(
         private _orderService: OrderService,
@@ -24,8 +26,13 @@ export class OrdersListComponent implements OnInit {
         this.getOrders();
     }
 
+    ngOnDestroy(): void {
+      this.endSubscription$.next();
+      this.endSubscription$.complete();
+  }
+
     public getOrders() {
-        return this._orderService.getOrders().subscribe((response) => {
+        return this._orderService.getOrders().pipe(takeUntil(this.endSubscription$)).subscribe((response) => {
             this.orders = response;
         });
     }
@@ -40,7 +47,7 @@ export class OrdersListComponent implements OnInit {
             header: 'Delete Order',
             icon: 'pi pi-exclamation-triangle',
             accept: () => {
-                this._orderService.deleteOrder(orderId).subscribe(
+                this._orderService.deleteOrder(orderId)	.pipe(takeUntil(this.endSubscription$)).subscribe(
                     () => {
                         this.getOrders();
                         this._messageService.add({

@@ -1,7 +1,7 @@
 export class ConstantsRoutes {
   //#region routes
   public static readonly HOME: string = '';
-  public static readonly DASHBOARD: string = 'dashboard';
+  public static readonly DASHBOARD: string = '';
 
   public static readonly CATEGORIES: string = 'categories';
   public static readonly CATEGORY_FORM_NEW: string = 'categories/category-from';
@@ -17,5 +17,7 @@ export class ConstantsRoutes {
 
   public static readonly ORDERS: string = 'orders';
   public static readonly ORDER_DETAILS: string = 'orders/order-details/:orderId';
+
+  public static readonly NOT_FOUND: string = '**';
   //#endregion
 }

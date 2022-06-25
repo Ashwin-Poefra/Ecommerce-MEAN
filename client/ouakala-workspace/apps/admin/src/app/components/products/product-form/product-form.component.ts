@@ -1,16 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Category, CategoryService, Product, ProductService } from '@ouakala-workspace/products';
 import { MessageService } from 'primeng/api';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
     selector: 'admin-product-form',
     templateUrl: './product-form.component.html',
     styles: []
 })
-export class ProductFormComponent implements OnInit {
+export class ProductFormComponent implements OnInit , OnDestroy{
     public product!: Product;
     public currentProductId = '';
     public productForm!: FormGroup;
@@ -19,6 +20,7 @@ export class ProductFormComponent implements OnInit {
     public showSpinner = false;
     public isSubmitted = false;
     public imageDisplay!: string | ArrayBuffer | null;
+    public endSubscription$: Subject<void> = new Subject();
 
     constructor(
         private _productService: ProductService,
@@ -35,6 +37,11 @@ export class ProductFormComponent implements OnInit {
         this.getCategories();
         this.checkEditMode();
     }
+
+    ngOnDestroy(): void {
+      this.endSubscription$.next();
+      this.endSubscription$.complete();
+  }
 
     private buildProductForm() {
         this.productForm = this._formBuilder.group({
@@ -54,7 +61,8 @@ export class ProductFormComponent implements OnInit {
         return this.productForm.controls;
     }
     public getCategories() {
-        return this._categoryService.getCategories().subscribe((response) => {
+        return this._categoryService.getCategories().pipe(takeUntil(this.endSubscription$))
+        .subscribe((response) => {
             this.categories = response;
         });
     }
@@ -94,7 +102,8 @@ export class ProductFormComponent implements OnInit {
                 productFormData.append(key, this.productFromControls[key].value);
             });
 
-            this._productService.createProduct(productFormData).subscribe(
+            this._productService.createProduct(productFormData).pipe(takeUntil(this.endSubscription$))
+            .subscribe(
                 (response) => {
                     this.showSpinner = false;
                     this.isSubmitted = false;
@@ -127,7 +136,8 @@ export class ProductFormComponent implements OnInit {
             });
 
             if (this.currentProductId) {
-                this._productService.updateProduct(productFormData, this.currentProductId).subscribe(
+                this._productService.updateProduct(productFormData, this.currentProductId).pipe(takeUntil(this.endSubscription$))
+                .subscribe(
                     (response) => {
                         this.showSpinner = false;
                         this.isSubmitted = false;
@@ -158,7 +168,8 @@ export class ProductFormComponent implements OnInit {
             if (productId) {
                 this.editMode = true;
 
-                this._productService.getProductById(productId).subscribe((response) => {
+                this._productService.getProductById(productId).pipe(takeUntil(this.endSubscription$))
+                .subscribe((response) => {
                     this.product = response;
                     this.productFromControls['name'].setValue(this.product.name);
                     this.productFromControls['brand'].setValue(this.product.brand);

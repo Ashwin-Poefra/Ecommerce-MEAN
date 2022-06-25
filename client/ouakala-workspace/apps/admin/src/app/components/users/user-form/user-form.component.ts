@@ -1,21 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { User, UserService } from '@ouakala-workspace/users';
 import { MessageService } from 'primeng/api';
 import { Location } from '@angular/common';
+import { Subject, takeUntil } from 'rxjs';
 @Component({
     selector: 'admin-user-form',
     templateUrl: './user-form.component.html',
     styles: []
 })
-export class UserFormComponent implements OnInit {
+export class UserFormComponent implements OnInit, OnDestroy {
     public user!: User;
-    public countries:{ id: string; name: string; }[] = [];
+    public countries: { id: string; name: string }[] = [];
     public userForm!: FormGroup;
     public editMode = false;
     public showSpinner = false;
     public isSubmitted = false;
+    public endSubscription$: Subject<void> = new Subject();
 
     constructor(
         private _userService: UserService,
@@ -30,6 +32,11 @@ export class UserFormComponent implements OnInit {
         this.buildUserForm();
         this.checkEditMode();
         this.getCountries();
+    }
+
+    ngOnDestroy(): void {
+        this.endSubscription$.next();
+        this.endSubscription$.complete();
     }
 
     private buildUserForm() {
@@ -52,7 +59,7 @@ export class UserFormComponent implements OnInit {
     }
 
     private getCountries() {
-      this.countries = this._userService.getCountries();
+        this.countries = this._userService.getCountries();
     }
 
     public onSubmit() {
@@ -80,24 +87,27 @@ export class UserFormComponent implements OnInit {
             this.user.city = this.userFromControls['city'].value;
             this.user.country = this.userFromControls['country'].value;
 
-            this._userService.createUser(this.user).subscribe(
-                (response) => {
-                    this.showSpinner = false;
-                    this.isSubmitted = false;
-                    this._messageService.add({
-                        severity: 'success',
-                        summary: 'Success',
-                        detail: '(' + response.name + ') has ben saved successfully'
-                    });
-                    setTimeout(() => {
-                        this._router.navigateByUrl('/users');
-                    }, 2000);
-                },
-                (error) => {
-                    this.showSpinner = false;
-                    this._messageService.add({ severity: 'error', summary: 'Error', detail: 'An Error occurred: ' + error });
-                }
-            );
+            this._userService
+                .createUser(this.user)
+                .pipe(takeUntil(this.endSubscription$))
+                .subscribe(
+                    (response) => {
+                        this.showSpinner = false;
+                        this.isSubmitted = false;
+                        this._messageService.add({
+                            severity: 'success',
+                            summary: 'Success',
+                            detail: '(' + response.name + ') has ben saved successfully'
+                        });
+                        setTimeout(() => {
+                            this._router.navigateByUrl('/users');
+                        }, 2000);
+                    },
+                    (error) => {
+                        this.showSpinner = false;
+                        this._messageService.add({ severity: 'error', summary: 'Error', detail: 'An Error occurred: ' + error });
+                    }
+                );
         }
     }
 
@@ -119,24 +129,27 @@ export class UserFormComponent implements OnInit {
             this.user.country = this.userFromControls['country'].value;
 
             if (this.user.id) {
-                this._userService.updateUser(this.user, this.user.id).subscribe(
-                    (response) => {
-                        this.showSpinner = false;
-                        this.isSubmitted = false;
-                        this._messageService.add({
-                            severity: 'success',
-                            summary: 'Success',
-                            detail: '(' + response.name + ') has ben updated successfully'
-                        });
-                        setTimeout(() => {
-                            this._router.navigateByUrl('/users');
-                        }, 2000);
-                    },
-                    (error) => {
-                        this.showSpinner = false;
-                        this._messageService.add({ severity: 'error', summary: 'Error', detail: 'An Error occurred: ' + error });
-                    }
-                );
+                this._userService
+                    .updateUser(this.user, this.user.id)
+                    .pipe(takeUntil(this.endSubscription$))
+                    .subscribe(
+                        (response) => {
+                            this.showSpinner = false;
+                            this.isSubmitted = false;
+                            this._messageService.add({
+                                severity: 'success',
+                                summary: 'Success',
+                                detail: '(' + response.name + ') has ben updated successfully'
+                            });
+                            setTimeout(() => {
+                                this._router.navigateByUrl('/users');
+                            }, 2000);
+                        },
+                        (error) => {
+                            this.showSpinner = false;
+                            this._messageService.add({ severity: 'error', summary: 'Error', detail: 'An Error occurred: ' + error });
+                        }
+                    );
             }
         }
     }
@@ -147,7 +160,8 @@ export class UserFormComponent implements OnInit {
             if (userId) {
                 this.editMode = true;
 
-                this._userService.getUserById(userId).subscribe((response) => {
+                this._userService.getUserById(userId).pipe(takeUntil(this.endSubscription$))
+                .subscribe((response) => {
                     this.user = response;
                     this.userFromControls['name'].setValue(this.user.name);
                     this.userFromControls['email'].setValue(this.user.email);

@@ -1,15 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Category, CategoryService } from '@ouakala-workspace/products';
 import { MessageService, ConfirmEventType, ConfirmationService } from 'primeng/api';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
     selector: 'admin-categories-list',
     templateUrl: './categories-list.component.html',
     styles: []
 })
-export class CategoriesListComponent implements OnInit {
+export class CategoriesListComponent implements OnInit, OnDestroy {
     public categories: Category[] = [];
+    public endSubscription$: Subject<void> = new Subject();
 
     constructor(
         private _categoryService: CategoryService,
@@ -22,10 +24,18 @@ export class CategoriesListComponent implements OnInit {
         this.getCategories();
     }
 
+    ngOnDestroy(): void {
+        this.endSubscription$.next();
+        this.endSubscription$.complete();
+    }
+
     public getCategories() {
-        return this._categoryService.getCategories().subscribe((response) => {
-            this.categories = response;
-        });
+        return this._categoryService
+            .getCategories()
+            .pipe(takeUntil(this.endSubscription$))
+            .subscribe((response) => {
+                this.categories = response;
+            });
     }
 
     onUpdateCategory(categoryId: string) {
@@ -38,19 +48,22 @@ export class CategoriesListComponent implements OnInit {
             header: 'Delete Category',
             icon: 'pi pi-exclamation-triangle',
             accept: () => {
-                this._categoryService.deleteCategory(categoryId).subscribe(
-                    (response) => {
-                        this.getCategories();
-                        this._messageService.add({
-                            severity: 'success',
-                            summary: 'Success',
-                            detail: 'Category has ben deleted successfully'
-                        });
-                    },
-                    (error) => {
-                        this._messageService.add({ severity: 'error', summary: 'Error', detail: 'An Error occurred: ' + error });
-                    }
-                );
+                this._categoryService
+                    .deleteCategory(categoryId)
+                    .pipe(takeUntil(this.endSubscription$))
+                    .subscribe(
+                        (response) => {
+                            this.getCategories();
+                            this._messageService.add({
+                                severity: 'success',
+                                summary: 'Success',
+                                detail: 'Category has ben deleted successfully'
+                            });
+                        },
+                        (error) => {
+                            this._messageService.add({ severity: 'error', summary: 'Error', detail: 'An Error occurred: ' + error });
+                        }
+                    );
             },
             reject: (type: ConfirmEventType) => {
                 switch (type) {

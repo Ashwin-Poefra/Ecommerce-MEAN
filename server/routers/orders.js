@@ -31,6 +31,20 @@ router.get(`/:id`, async (req, res) => {
   res.send(order);
 });
 
+router.get(`/get/count`, async (req, res) => {
+  const order = await Order.countDocuments();
+
+  if (!order) {
+    res.status(404).json({
+      success: false,
+      message: "can not count orders",
+    });
+  }
+  res.status(200).send({
+    orderCount: order,
+  });
+});
+
 router.post(`/`, async (req, res) => {
   const orderItemsIds = Promise.all(
     req.body.orderItems.map(async (orderItem) => {
@@ -116,7 +130,7 @@ router.delete("/:id", (req, res) => {
     });
 });
 
-router.get("/get/totalsales", async (req, res) => {
+router.get("/get/total-sales", async (req, res) => {
   const totalSales = await Order.aggregate([
     { $group: { _id: null, totalsales: { $sum: "$totalPrice" } } },
   ]);

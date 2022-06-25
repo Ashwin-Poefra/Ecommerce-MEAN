@@ -1,20 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Category, CategoryService } from '@ouakala-workspace/products';
 import { MessageService } from 'primeng/api';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
 @Component({
     selector: 'admin-category-form',
     templateUrl: './category-form.component.html'
     // styles: []
 })
-export class CategoryFormComponent implements OnInit {
+export class CategoryFormComponent implements OnInit, OnDestroy {
     public category!: Category;
     public categoryForm!: FormGroup;
     public editMode = false;
     public showSpinner = false;
     public isSubmitted = false;
+
+    public endSubscription$: Subject<void> = new Subject();
 
     constructor(
         private _categoryService: CategoryService,
@@ -28,6 +31,11 @@ export class CategoryFormComponent implements OnInit {
     ngOnInit(): void {
         this.buildCategoryForm();
         this.checkEditMode();
+    }
+
+    ngOnDestroy(): void {
+        this.endSubscription$.next();
+        this.endSubscription$.complete();
     }
 
     private buildCategoryForm() {
@@ -61,24 +69,27 @@ export class CategoryFormComponent implements OnInit {
             this.category.icon = this.categoryFromControls['icon'].value;
             this.category.color = this.categoryFromControls['color'].value;
 
-            this._categoryService.createCategory(this.category).subscribe(
-                (response) => {
-                    this.showSpinner = false;
-                    this.isSubmitted = false;
-                    this._messageService.add({
-                        severity: 'success',
-                        summary: 'Success',
-                        detail: '(' + response.name + ') has ben saved successfully'
-                    });
-                    setTimeout(() => {
-                        this._router.navigateByUrl('/categories');
-                    }, 2000);
-                },
-                (error) => {
-                    this.showSpinner = false;
-                    this._messageService.add({ severity: 'error', summary: 'Error', detail: 'An Error occurred: ' + error });
-                }
-            );
+            this._categoryService
+                .createCategory(this.category)
+                .pipe(takeUntil(this.endSubscription$))
+                .subscribe(
+                    (response) => {
+                        this.showSpinner = false;
+                        this.isSubmitted = false;
+                        this._messageService.add({
+                            severity: 'success',
+                            summary: 'Success',
+                            detail: '(' + response.name + ') has ben saved successfully'
+                        });
+                        setTimeout(() => {
+                            this._router.navigateByUrl('/categories');
+                        }, 2000);
+                    },
+                    (error) => {
+                        this.showSpinner = false;
+                        this._messageService.add({ severity: 'error', summary: 'Error', detail: 'An Error occurred: ' + error });
+                    }
+                );
         }
     }
 
@@ -93,24 +104,27 @@ export class CategoryFormComponent implements OnInit {
             this.category.color = this.categoryFromControls['color'].value;
 
             if (this.category.id) {
-                this._categoryService.updateCategory(this.category, this.category.id).subscribe(
-                    (response) => {
-                        this.showSpinner = false;
-                        this.isSubmitted = false;
-                        this._messageService.add({
-                            severity: 'success',
-                            summary: 'Success',
-                            detail: '(' + response.name + ') has ben updated successfully'
-                        });
-                        setTimeout(() => {
-                            this._router.navigateByUrl('/categories');
-                        }, 2000);
-                    },
-                    (error) => {
-                        this.showSpinner = false;
-                        this._messageService.add({ severity: 'error', summary: 'Error', detail: 'An Error occurred: ' + error });
-                    }
-                );
+                this._categoryService
+                    .updateCategory(this.category, this.category.id)
+                    .pipe(takeUntil(this.endSubscription$))
+                    .subscribe(
+                        (response) => {
+                            this.showSpinner = false;
+                            this.isSubmitted = false;
+                            this._messageService.add({
+                                severity: 'success',
+                                summary: 'Success',
+                                detail: '(' + response.name + ') has ben updated successfully'
+                            });
+                            setTimeout(() => {
+                                this._router.navigateByUrl('/categories');
+                            }, 2000);
+                        },
+                        (error) => {
+                            this.showSpinner = false;
+                            this._messageService.add({ severity: 'error', summary: 'Error', detail: 'An Error occurred: ' + error });
+                        }
+                    );
             }
         }
     }
@@ -121,12 +135,15 @@ export class CategoryFormComponent implements OnInit {
             if (categoryId) {
                 this.editMode = true;
 
-                this._categoryService.getCategoryById(categoryId).subscribe((response) => {
-                    this.category = response;
-                    this.categoryFromControls['name'].setValue(this.category.name);
-                    this.categoryFromControls['icon'].setValue(this.category.icon);
-                    this.categoryFromControls['color'].setValue(this.category.color);
-                });
+                this._categoryService
+                    .getCategoryById(categoryId)
+                    .pipe(takeUntil(this.endSubscription$))
+                    .subscribe((response) => {
+                        this.category = response;
+                        this.categoryFromControls['name'].setValue(this.category.name);
+                        this.categoryFromControls['icon'].setValue(this.category.icon);
+                        this.categoryFromControls['color'].setValue(this.category.color);
+                    });
             }
         });
     }
