@@ -12,13 +12,13 @@ import { OrdersListComponent } from './components/orders/orders-list/orders-list
 import { OrderDetailsComponent } from './components/orders/order-details/order-details.component';
 
 import { ConstantsRoutes } from './routes/constants-routes';
-import { AuthGuardGuard } from '@ouakala-workspace/users';
+import { AuthGuard } from '@ouakala-workspace/users';
 
 const routes: Routes = [
     {
         path: ConstantsRoutes.HOME,
         component: ShellComponent,
-        canActivate: [AuthGuardGuard],
+        canActivate: [AuthGuard],
         children: [
             { path: ConstantsRoutes.DASHBOARD, component: DashboardComponent },
             { path: ConstantsRoutes.CATEGORIES, component: CategoriesListComponent },
@@ -34,7 +34,7 @@ const routes: Routes = [
             { path: ConstantsRoutes.ORDER_DETAILS, component: OrderDetailsComponent }
         ]
     },
-    { path: ConstantsRoutes.NOT_FOUND, redirectTo: '', pathMatch: 'full' }
+    { path: ConstantsRoutes.NOT_FOUND, redirectTo: '/login', pathMatch: 'full' }
 ];
 
 @NgModule({

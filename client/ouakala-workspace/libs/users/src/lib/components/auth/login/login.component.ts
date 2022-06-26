@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     ) {}
 
     ngOnInit(): void {
-        this.buildCategoryForm();
+        this.buildLoginForm();
     }
 
     ngOnDestroy(): void {
@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.endSubscription$.complete();
     }
 
-    private buildCategoryForm() {
+    private buildLoginForm() {
         this.loginFormGroup = this._formBuilder.group({
             email: new FormControl('', [Validators.required, Validators.email]),
             password: new FormControl('', [Validators.required])

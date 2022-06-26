@@ -6,7 +6,7 @@ import { LocalStorageService } from '../services/local-storage.service';
 @Injectable({
     providedIn: 'root'
 })
-export class AuthGuardGuard implements CanActivate {
+export class AuthGuard implements CanActivate {
     constructor(private _localStorageService: LocalStorageService, private _router: Router) {}
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
