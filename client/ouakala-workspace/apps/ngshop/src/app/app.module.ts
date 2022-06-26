@@ -10,9 +10,18 @@ import { PrimaryHeaderComponent } from './shared/primary-header/primary-header.c
 import { PrimaryFooterComponent } from './shared/primary-footer/primary-footer.component';
 import { UiModule } from '@ouakala-workspace/ui';
 import { PrimaryNavbarComponent } from './shared/primary-navbar/primary-navbar.component';
+import { ProductsModule } from '@ouakala-workspace/products';
 @NgModule({
-    declarations: [AppComponent, NxWelcomeComponent, HomePageComponent, ProductListComponent, PrimaryHeaderComponent, PrimaryFooterComponent, PrimaryNavbarComponent],
-    imports: [BrowserModule, AppRoutingModule, UiModule],
+    declarations: [
+        AppComponent,
+        NxWelcomeComponent,
+        HomePageComponent,
+        ProductListComponent,
+        PrimaryHeaderComponent,
+        PrimaryFooterComponent,
+        PrimaryNavbarComponent
+    ],
+    imports: [BrowserModule, AppRoutingModule, ProductsModule, UiModule],
     providers: [],
     bootstrap: [AppComponent]
 })
