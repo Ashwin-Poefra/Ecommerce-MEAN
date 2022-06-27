@@ -31,7 +31,7 @@ export class ProductService {
         return this._httpClient.delete<object>(`${this.baseUrl}/${productId}`);
     }
 
-    getProductsCount(): Observable<number> {
+    public getProductsCount(): Observable<number> {
         return this._httpClient.get<number>(`${this.baseUrl}/get/count`).pipe(map((objectValue: any) => objectValue.productCount));
     }
 }
