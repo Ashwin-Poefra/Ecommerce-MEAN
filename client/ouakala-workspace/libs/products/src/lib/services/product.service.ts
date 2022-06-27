@@ -15,6 +15,10 @@ export class ProductService {
         return this._httpClient.get<Product[]>(`${this.baseUrl}`);
     }
 
+    public getFeaturedProducts(count: number): Observable<Product[]> {
+        return this._httpClient.get<Product[]>(`${this.baseUrl}/get/featured/${count}`);
+    }
+
     public getProductById(productId: string): Observable<Product> {
         return this._httpClient.get<Product>(`${this.baseUrl}/${productId}`);
     }
