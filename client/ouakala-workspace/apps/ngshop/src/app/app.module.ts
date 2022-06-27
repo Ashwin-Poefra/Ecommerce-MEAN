@@ -11,6 +11,7 @@ import { PrimaryFooterComponent } from './shared/primary-footer/primary-footer.c
 import { UiModule } from '@ouakala-workspace/ui';
 import { PrimaryNavbarComponent } from './shared/primary-navbar/primary-navbar.component';
 import { ProductsModule } from '@ouakala-workspace/products';
+import { HttpClientModule } from '@angular/common/http';
 @NgModule({
     declarations: [
         AppComponent,
@@ -21,7 +22,7 @@ import { ProductsModule } from '@ouakala-workspace/products';
         PrimaryFooterComponent,
         PrimaryNavbarComponent
     ],
-    imports: [BrowserModule, AppRoutingModule, ProductsModule, UiModule],
+    imports: [BrowserModule, AppRoutingModule, HttpClientModule, ProductsModule, UiModule],
     providers: [],
     bootstrap: [AppComponent]
 })
