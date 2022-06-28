@@ -8,9 +8,10 @@ import { ButtonModule } from 'primeng/button';
 import { ProductsListComponent } from './components/products-list/products-list.component';
 import { ProductsRoutingModule } from './products-routing.module';
 import { CheckboxModule } from 'primeng/checkbox';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
-    imports: [CommonModule, ProductsRoutingModule, ButtonModule, CheckboxModule],
+    imports: [CommonModule, ProductsRoutingModule, FormsModule, ButtonModule, CheckboxModule],
     exports: [ProductSearchComponent, CategoriesBannerComponent, ProductItemComponent, FeaturedProductsComponent, ProductsListComponent],
     declarations: [ProductSearchComponent, CategoriesBannerComponent, ProductItemComponent, FeaturedProductsComponent, ProductsListComponent]
 })

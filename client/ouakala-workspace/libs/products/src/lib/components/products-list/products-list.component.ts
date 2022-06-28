@@ -44,4 +44,12 @@ export class ProductsListComponent implements OnInit, OnDestroy {
                 this.categories = response;
             });
     }
+
+    public onCategoryFilter() {
+        const selectedCategories:any = this.categories.filter((category) => category.checked).map((category) => category.id);
+
+        this._productService.getFilteredProductByCategoryIds(selectedCategories).subscribe((response) => {
+            this.products = response;
+        });
+    }
 }
