@@ -67,11 +67,15 @@ export class ProductsListComponent implements OnInit, OnDestroy {
     }
 
     public checkCategoriesIdParams() {
-        this._activatedRoute.params.subscribe((params) => {
+        this._activatedRoute.params
+        .pipe(takeUntil(this.endSubscription$))
+        .subscribe((params) => {
             const categoryId = params['categoryId'];
 
             if (categoryId) {
-                this._productService.getProductsByIdCategory(categoryId).subscribe((response) => (this.products = response));
+                this._productService.getProductsByIdCategory(categoryId)
+                .pipe(takeUntil(this.endSubscription$))
+                .subscribe((response) => (this.products = response));
                 this.isCategoryChecked = true;
             } else {
                 this.getProductsList();
