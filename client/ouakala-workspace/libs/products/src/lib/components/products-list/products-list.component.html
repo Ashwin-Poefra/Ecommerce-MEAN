@@ -1,16 +1,21 @@
 <div class="products-page">
     <div class="grid">
-        <div class="col-3">
+        <div class="col-3" *ngIf="!isCategoryChecked">
             <h4>Categories</h4>
             <div class="field-checkbox" *ngFor="let category of categories">
                 <p-checkbox [(ngModel)]="category.checked" [binary]="true" [inputId]="'name_' + category.id" (onChange)="onCategoryFilter()"></p-checkbox>
                 <label [for]="'name_' + category.id"><i [class]="'pi pi-' + category.icon"></i> {{ category.name }}</label>
             </div>
         </div>
-        <div class="col-9">
-            <div class="grid">
-                <div class="col-3" *ngFor="let product of products">
+        <div [ngClass]="!isCategoryChecked ? 'col-9' : 'col-12'">
+            <div class="grid" *ngIf="products">
+                <div [ngClass]="{ 'col-4': !isCategoryChecked, 'col-3': isCategoryChecked }" *ngFor="let product of products">
                     <products-product-item [product]="product"></products-product-item>
+                </div>
+            </div>
+            <div class="grid" *ngIf="products.length === 0">
+                <div class="col-12">
+                    <p>No Product Available</p>
                 </div>
             </div>
         </div>

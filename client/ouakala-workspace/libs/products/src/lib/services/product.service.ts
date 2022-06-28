@@ -16,12 +16,12 @@ export class ProductService {
     }
 
     public getFilteredProductByCategoryIds(categoriesId: string[]): Observable<Product[]> {
-      let params = new HttpParams();
-      if (categoriesId) {
-          params = params.append('categories', categoriesId.join(','));
-      }
-      return this._httpClient.get<Product[]>(`${this.baseUrl}`, { params: params });
-  }
+        let params = new HttpParams();
+        if (categoriesId) {
+            params = params.append('categories', categoriesId.join(','));
+        }
+        return this._httpClient.get<Product[]>(`${this.baseUrl}`, { params: params });
+    }
 
     public getFeaturedProducts(count: number): Observable<Product[]> {
         return this._httpClient.get<Product[]>(`${this.baseUrl}/get/featured/${count}`);
@@ -31,9 +31,9 @@ export class ProductService {
         return this._httpClient.get<Product>(`${this.baseUrl}/${productId}`);
     }
 
-    public getProductByIdCategory(categoryId: string[]): Observable<Product[]> {
-      return this._httpClient.get<Product[]>(`${this.baseUrl}/get/category/${categoryId}`);
-  }
+    public getProductsByIdCategory(categoryId: string): Observable<Product[]> {
+        return this._httpClient.get<Product[]>(`${this.baseUrl}/get/category/${categoryId}`);
+    }
 
     public createProduct(productData: FormData): Observable<Product> {
         return this._httpClient.post<Product>(`${this.baseUrl}`, productData);

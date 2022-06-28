@@ -2,7 +2,7 @@
     <h3>Categories</h3>
     <div class="grid">
         <div class="col-2" *ngFor="let category of categories">
-            <div class="category" [routerLink]="['/products/category',category.id]" routerLinkActive="router-link-active"  [style.background-color]="category.color">
+            <div class="category" [routerLink]="['/categories/category',category.id]" routerLinkActive="router-link-active"  [style.background-color]="category.color">
                 <div class="category-icon">
                     <i [ngClass]="'pi pi-' + category.icon"></i>
                 </div>

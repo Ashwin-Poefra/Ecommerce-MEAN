@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { Category } from '../../models/category';
 import { Product } from '../../models/product';
@@ -14,11 +15,12 @@ export class ProductsListComponent implements OnInit, OnDestroy {
     public products: Product[] = [];
     public categories: Category[] = [];
     public endSubscription$ = new Subject<void>();
+    public isCategoryChecked = false;
 
-    constructor(private _productService: ProductService, private _categoryService: CategoryService) {}
+    constructor(private _productService: ProductService, private _categoryService: CategoryService, private _activatedRoute: ActivatedRoute) {}
 
     ngOnInit(): void {
-        this.getProductsList();
+        this.checkCategoriesIdParams();
         this.getCategoriesList();
     }
 
@@ -36,6 +38,15 @@ export class ProductsListComponent implements OnInit, OnDestroy {
             });
     }
 
+    public getFilteredProductList(selectedCategories: string[]) {
+        this._productService
+            .getFilteredProductByCategoryIds(selectedCategories)
+            .pipe(takeUntil(this.endSubscription$))
+            .subscribe((response) => {
+                this.products = response;
+            });
+    }
+
     public getCategoriesList() {
         this._categoryService
             .getCategories()
@@ -46,10 +57,26 @@ export class ProductsListComponent implements OnInit, OnDestroy {
     }
 
     public onCategoryFilter() {
-        const selectedCategories:any = this.categories.filter((category) => category.checked).map((category) => category.id);
+        const selectedCategories = this.categories.filter((category) => category.checked).map((category) => category.id);
 
-        this._productService.getFilteredProductByCategoryIds(selectedCategories).subscribe((response) => {
-            this.products = response;
+        if (selectedCategories === undefined || selectedCategories.length == 0) {
+            this.getProductsList();
+        } else {
+            this.getFilteredProductList(selectedCategories as string[]);
+        }
+    }
+
+    public checkCategoriesIdParams() {
+        this._activatedRoute.params.subscribe((params) => {
+            const categoryId = params['categoryId'];
+
+            if (categoryId) {
+                this._productService.getProductsByIdCategory(categoryId).subscribe((response) => (this.products = response));
+                this.isCategoryChecked = true;
+            } else {
+                this.getProductsList();
+                this.isCategoryChecked = false;
+            }
         });
     }
 }
