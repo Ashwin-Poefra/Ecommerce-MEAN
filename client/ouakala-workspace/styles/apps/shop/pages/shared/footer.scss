@@ -1,0 +1,19 @@
+footer{
+  width: 100%;
+  background-color: var(--yellow-100);
+  margin-top: 25px;
+  min-height: 50px;
+  padding: 10px 25px;
+
+  .footer-wrapper{
+    align-items: center;
+
+    .social{
+      margin-top: 15px;
+      text-align: center;
+      .nav{
+        justify-content: flex-end;
+      }
+    }
+  }
+}
