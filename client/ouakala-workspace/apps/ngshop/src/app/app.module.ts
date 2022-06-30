@@ -11,16 +11,10 @@ import { UiModule } from '@ouakala-workspace/ui';
 import { PrimaryNavbarComponent } from './shared/primary-navbar/primary-navbar.component';
 import { ProductsModule } from '@ouakala-workspace/products';
 import { HttpClientModule } from '@angular/common/http';
+import { OrdersModule } from '@ouakala-workspace/orders';
 @NgModule({
-    declarations: [
-        AppComponent,
-        NxWelcomeComponent,
-        HomePageComponent,
-        PrimaryHeaderComponent,
-        PrimaryFooterComponent,
-        PrimaryNavbarComponent
-    ],
-    imports: [BrowserModule, AppRoutingModule, HttpClientModule, ProductsModule, UiModule],
+    declarations: [AppComponent, NxWelcomeComponent, HomePageComponent, PrimaryHeaderComponent, PrimaryFooterComponent, PrimaryNavbarComponent],
+    imports: [BrowserModule, AppRoutingModule, HttpClientModule, ProductsModule, UiModule, OrdersModule],
     providers: [],
     bootstrap: [AppComponent]
 })
