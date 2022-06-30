@@ -10,20 +10,22 @@ export class CartService {
     constructor() {}
 
     public initCartLocalStorage() {
-        const initialCartItem = {
-            items: []
-        };
-
-        localStorage.setItem(CART_KEY, JSON.stringify(initialCartItem));
+        const cart: Cart = this.getCartItem();
+        if (!cart) {
+            const initialCartItem = {
+                items: []
+            };
+            localStorage.setItem(CART_KEY, JSON.stringify(initialCartItem));
+        }
     }
 
-    getCartItem(): Cart {
+    public getCartItem(): Cart {
         const cartJsonString: string = localStorage.getItem(CART_KEY) || 'null';
         const cart: Cart = JSON.parse(cartJsonString);
         return cart;
     }
 
-    setCartItem(cartItem: CartItem): Cart {
+    public setCartItem(cartItem: CartItem): Cart {
         const cart: Cart = this.getCartItem();
         const cartItemExist = cart.items?.find((item) => item.productId === cartItem.productId);
 
