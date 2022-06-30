@@ -18,13 +18,13 @@
             <div class="product-quantity">
                 <div class="field col-12 md:col-3 p-0">
                     <label for="quantity">Quantity</label>
-                    <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="100"> </p-inputNumber>
+                    <p-inputNumber mode="decimal" [(ngModel)]="quantity" [showButtons]="true" inputId="minmax-buttons" [min]="1" [max]="100"> </p-inputNumber>
                 </div>
             </div>
 
             <div class="product-action">
                 <button pButton pRipple type="button" label="Buy Now" class="p-button-rounded mr-2"></button>
-                <button pButton pRipple type="button" label="Add to Cart" class="p-button-rounded" (onClick)="addProductToCart()"></button>
+                <button pButton pRipple type="button" label="Add to Cart" class="p-button-rounded" (click)="addProductToCart()"></button>
             </div>
         </div>
     </div>
