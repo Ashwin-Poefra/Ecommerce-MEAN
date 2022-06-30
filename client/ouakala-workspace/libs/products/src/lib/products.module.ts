@@ -14,10 +14,11 @@ import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
 import { RatingModule } from 'primeng/rating';
 import { InputNumberModule } from 'primeng/inputnumber';
+import { UiModule } from '@ouakala-workspace/ui';
 
 const UX_MODULE = [ButtonModule, CheckboxModule, RatingModule, InputNumberModule];
 @NgModule({
-    imports: [CommonModule, ProductsRoutingModule, FormsModule, ...UX_MODULE],
+    imports: [CommonModule, ProductsRoutingModule, FormsModule,UiModule, ...UX_MODULE],
     exports: [
         ProductSearchComponent,
         CategoriesBannerComponent,
