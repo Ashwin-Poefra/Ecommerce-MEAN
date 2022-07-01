@@ -10,24 +10,24 @@
             </div>
 
             <div class="cart-shipping mb-5">Shipping after the payment, Delivery time : 1 to 4 working days</div>
-            <div class="cart-item">
+            <div class="cart-item mb-2" *ngFor="let cartItem of cartItemsDetailed">
                 <div class="grid p-fluid">
                     <div class="col-2 cart-item-image">
-                        <img src="" alt="" />
+                        <img [src]="cartItem.product?.image" alt="" />
                     </div>
                     <div class="col-7">
-                        <div class="cart-item-name">Product Name</div>
-                        <div class="cart-item-price">{{ 222 | currency }}</div>
+                        <div class="cart-item-name">{{cartItem.product?.name}}</div>
+                        <div class="cart-item-price">{{ cartItem.product?.price| currency }}</div>
                         <div class="cart-item-remove"><p-button icon="pi pi-trash" styleClass="p-button-danger" (onClick)="onRemoveCartItem()"></p-button></div>
                     </div>
                     <div class="col-3">
                         <div class="field cart-item-quantity">
                             <label for="quantity">Quantity</label>
-                            <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="1" [max]="100"> </p-inputNumber>
+                            <p-inputNumber mode="decimal" [showButtons]="true" [inputId]="'quantity_'+cartItem.product?.id" [min]="1" [max]="100"> </p-inputNumber>
                         </div>
                         <div class="cart-item-subtotal">
                           Subtotal:
-                          <span class="cart-item-subtotal-value">{{ 222 | currency }}</span>
+                          <span class="cart-item-subtotal-value">{{ (cartItem.product?.price! * cartItem.quantity!)| currency }}</span>
                         </div>
                     </div>
                 </div>
