@@ -48,4 +48,14 @@ export class CartPageComponent implements OnInit, OnDestroy {
             });
         });
     }
+
+    public onUpdateCartItemQuantity(event: HTMLInputElement, cartItem: CartItemsDetailed) {
+        this._cartService.setCartItem(
+            {
+                productId: cartItem.product?.id,
+                quantity: +event.value
+            },
+            true
+        );
+    }
 }

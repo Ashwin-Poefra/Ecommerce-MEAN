@@ -28,7 +28,7 @@ export class CartService {
         return cart;
     }
 
-    public setCartItem(cartItem: CartItem): Cart {
+    public setCartItem(cartItem: CartItem, updateCartItem?: boolean): Cart {
         const cart: Cart = this.getCartItem();
         const cartItemExist = cart.items?.find((item) => item.productId === cartItem.productId);
 
@@ -36,7 +36,11 @@ export class CartService {
             cart.items?.map((item) => {
                 if (item.quantity !== undefined && cartItem.quantity !== undefined) {
                     if (item.productId === cartItem.productId) {
-                        item.quantity = item.quantity + cartItem.quantity;
+                        if (updateCartItem) {
+                            item.quantity = cartItem.quantity;
+                        } else {
+                            item.quantity = item.quantity + cartItem.quantity;
+                        }
                     }
                 }
             });

@@ -9,9 +9,10 @@ import { BadgeModule } from 'primeng/badge';
 import { ButtonModule } from 'primeng/button';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { OrderSummaryComponent } from './components/order-summary/order-summary.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
-    imports: [CommonModule, OrdersRoutingModule, BadgeModule, ButtonModule, InputNumberModule],
+    imports: [CommonModule, FormsModule, OrdersRoutingModule, BadgeModule, ButtonModule, InputNumberModule],
     declarations: [CartIconComponent, CartPageComponent, OrderSummaryComponent],
     exports: [CartIconComponent, CartPageComponent]
 })
