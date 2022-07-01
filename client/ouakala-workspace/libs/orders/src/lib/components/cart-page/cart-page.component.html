@@ -6,7 +6,7 @@
             </div>
 
             <div>
-                <h4>My Cart: {{ 2 }} Items(s)</h4>
+                <h4>My Cart: {{ cartCount }} Items(s)</h4>
             </div>
 
             <div class="cart-shipping mb-5">Shipping after the payment, Delivery time : 1 to 4 working days</div>
@@ -18,7 +18,7 @@
                     <div class="col-7">
                         <div class="cart-item-name">{{cartItem.product?.name}}</div>
                         <div class="cart-item-price">{{ cartItem.product?.price| currency }}</div>
-                        <div class="cart-item-remove"><p-button icon="pi pi-trash" styleClass="p-button-danger" (onClick)="onRemoveCartItem()"></p-button></div>
+                        <div class="cart-item-remove"><p-button icon="pi pi-trash" styleClass="p-button-danger" (onClick)="onRemoveCartItem(cartItem)"></p-button></div>
                     </div>
                     <div class="col-3">
                         <div class="field cart-item-quantity">
