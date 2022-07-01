@@ -8,10 +8,11 @@ import { OrdersRoutingModule } from './orders-routing.module';
 import { BadgeModule } from 'primeng/badge';
 import { ButtonModule } from 'primeng/button';
 import { InputNumberModule } from 'primeng/inputnumber';
+import { OrderSummaryComponent } from './components/order-summary/order-summary.component';
 
 @NgModule({
     imports: [CommonModule, OrdersRoutingModule, BadgeModule, ButtonModule, InputNumberModule],
-    declarations: [CartIconComponent, CartPageComponent],
+    declarations: [CartIconComponent, CartPageComponent, OrderSummaryComponent],
     exports: [CartIconComponent, CartPageComponent]
 })
 export class OrdersModule {
