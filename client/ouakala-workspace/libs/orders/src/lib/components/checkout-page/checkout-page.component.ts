@@ -70,28 +70,28 @@ export class CheckoutPageComponent implements OnInit {
     }
 
     placeOrder() {
-        // this.isSubmitted = true;
-        // if (this.checkoutFormGroup.invalid) {
-        //     return;
-        // }
+        this.isSubmitted = true;
+        if (this.checkoutFormGroup.invalid) {
+            return;
+        }
 
-        // const order: Order = {
-        //     orderItems: this.orderItems,
-        //     shippingAddress1: this.checkoutForm['street'].value,
-        //     shippingAddress2: this.checkoutForm['apartment'].value,
-        //     city: this.checkoutForm['city'].value,
-        //     zip: this.checkoutForm['zip'].value,
-        //     country: this.checkoutForm['country'].value,
-        //     phone: this.checkoutForm['phone'].value,
-        //     status: 0,
-        //     user: this.userId,
-        //     dateOrdered: Date.now().toString()
-        // };
+        const order: Order = {
+            orderItems: this.orderItems,
+            shippingAddress1: this.checkoutForm['street'].value,
+            shippingAddress2: this.checkoutForm['apartment'].value,
+            city: this.checkoutForm['city'].value,
+            zip: this.checkoutForm['zip'].value,
+            country: this.checkoutForm['country'].value,
+            phone: this.checkoutForm['phone'].value,
+            status: 0,
+            user: this.userId,
+            dateOrdered: Date.now().toString()
+        };
 
-        // this._orderService.saveOrder(order).subscribe((response) => {
-        //   console.log("success");
+        this._orderService.saveOrder(order).subscribe((response) => {
+          console.log("success");
 
-        // });
+        });
     }
 
     get checkoutForm() {
