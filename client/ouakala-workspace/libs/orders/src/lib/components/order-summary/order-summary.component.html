@@ -13,8 +13,8 @@
       <span>Total Price</span>
       <span>{{ totalPrice | currency }}</span>
     </div>
-    <div class="checkout-button">
-      <p-button label="Checkout"></p-button>
+    <div class="checkout-button" *ngIf="!isCheckoutPage">
+      <p-button label="Checkout" routerLink="/checkout"></p-button>
     </div>
   </div>
 </div>

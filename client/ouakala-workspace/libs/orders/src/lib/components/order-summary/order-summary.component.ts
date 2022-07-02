@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ProductService } from '@ouakala-workspace/products';
 import { Subject, take, takeUntil } from 'rxjs';
 import { CartService } from '../../services/cart.service';
@@ -11,9 +12,12 @@ import { OrderService } from '../../services/order.service';
 })
 export class OrderSummaryComponent implements OnInit, OnDestroy {
     public totalPrice = 0;
+    public isCheckoutPage = false;
     public endSubscription$: Subject<void> = new Subject();
 
-    constructor(private _cartService: CartService, private _productService: ProductService) {}
+    constructor(private _cartService: CartService, private _productService: ProductService, private _router: Router) {
+        this._router.url.includes('checkout') ? (this.isCheckoutPage = true) : (this.isCheckoutPage = false);
+    }
 
     ngOnInit(): void {
         this.onGetOrderSummary();

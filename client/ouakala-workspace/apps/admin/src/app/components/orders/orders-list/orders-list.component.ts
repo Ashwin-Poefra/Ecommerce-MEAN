@@ -1,9 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Order, OrderService } from '@ouakala-workspace/orders';
+import { Order, OrderService,ORDER_STATUS  } from '@ouakala-workspace/orders';
 import { MessageService, ConfirmEventType, ConfirmationService } from 'primeng/api';
 import { Subject, takeUntil } from 'rxjs';
-import { ORDER_STATUS } from '../../../constants/order.status';
 
 @Component({
     selector: 'admin-orders-list',

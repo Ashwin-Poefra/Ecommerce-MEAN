@@ -1,19 +1,35 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { OrdersRoutingModule } from './orders-routing.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 import { CartService } from './services/cart.service';
 import { CartIconComponent } from './components/cart-icon/cart-icon.component';
 import { CartPageComponent } from './components/cart-page/cart-page.component';
-import { OrdersRoutingModule } from './orders-routing.module';
+import { OrderSummaryComponent } from './components/order-summary/order-summary.component';
+import { CheckoutPageComponent } from './components/checkout-page/checkout-page.component';
 
 import { BadgeModule } from 'primeng/badge';
 import { ButtonModule } from 'primeng/button';
 import { InputNumberModule } from 'primeng/inputnumber';
-import { OrderSummaryComponent } from './components/order-summary/order-summary.component';
-import { FormsModule } from '@angular/forms';
+import { InputTextModule } from 'primeng/inputtext';
+import { InputMaskModule } from 'primeng/inputmask';
+import { DropdownModule } from 'primeng/dropdown';
 
 @NgModule({
-    imports: [CommonModule, FormsModule, OrdersRoutingModule, BadgeModule, ButtonModule, InputNumberModule],
-    declarations: [CartIconComponent, CartPageComponent, OrderSummaryComponent],
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        OrdersRoutingModule,
+        BadgeModule,
+        ButtonModule,
+        InputNumberModule,
+        InputTextModule,
+        InputMaskModule,
+        DropdownModule
+    ],
+    declarations: [CartIconComponent, CartPageComponent, OrderSummaryComponent, CheckoutPageComponent],
     exports: [CartIconComponent, CartPageComponent]
 })
 export class OrdersModule {

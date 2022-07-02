@@ -1,16 +1,15 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Order, OrderService } from '@ouakala-workspace/orders';
+import { Order, OrderService, ORDER_STATUS } from '@ouakala-workspace/orders';
 import { MessageService } from 'primeng/api';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ORDER_STATUS } from '../../../constants/order.status';
 import { Subject, takeUntil } from 'rxjs';
 @Component({
     selector: 'admin-order-details',
     templateUrl: './order-details.component.html',
     styles: []
 })
-export class OrderDetailsComponent implements OnInit , OnDestroy{
+export class OrderDetailsComponent implements OnInit, OnDestroy {
     public order: Order = new Order();
     public orderStatus = ORDER_STATUS;
     public orderStatuses: { id: string; name: any }[] = [];
@@ -31,18 +30,21 @@ export class OrderDetailsComponent implements OnInit , OnDestroy{
     }
 
     ngOnDestroy(): void {
-      this.endSubscription$.next();
-      this.endSubscription$.complete();
-  }
+        this.endSubscription$.next();
+        this.endSubscription$.complete();
+    }
 
     public getOrderDetails() {
         this._activatedRoute.params.subscribe((params) => {
             const orderId = params['orderId'];
             if (orderId) {
-                this._orderService.getOrderById(orderId).pipe(takeUntil(this.endSubscription$)).subscribe((response) => {
-                    this.order = response;
-                    this.selectedStatus = this.order.status;
-                });
+                this._orderService
+                    .getOrderById(orderId)
+                    .pipe(takeUntil(this.endSubscription$))
+                    .subscribe((response) => {
+                        this.order = response;
+                        this.selectedStatus = this.order.status;
+                    });
             }
         });
     }
@@ -58,21 +60,24 @@ export class OrderDetailsComponent implements OnInit , OnDestroy{
 
     public onStatusChange(event: any) {
         if (this.order.id) {
-            this._orderService.updateOrder({ status: event.value }, this.order.id).pipe(takeUntil(this.endSubscription$)).subscribe(
-                (response) => {
-                    this._messageService.add({
-                        severity: 'success',
-                        summary: 'Success',
-                        detail: 'Order has ben updated successfully'
-                    });
-                    setTimeout(() => {
-                        this._router.navigateByUrl('/orders');
-                    }, 2000);
-                },
-                (error) => {
-                    this._messageService.add({ severity: 'error', summary: 'Error', detail: 'An Error occurred: ' + error });
-                }
-            );
+            this._orderService
+                .updateOrder({ status: event.value }, this.order.id)
+                .pipe(takeUntil(this.endSubscription$))
+                .subscribe(
+                    (response) => {
+                        this._messageService.add({
+                            severity: 'success',
+                            summary: 'Success',
+                            detail: 'Order has ben updated successfully'
+                        });
+                        setTimeout(() => {
+                            this._router.navigateByUrl('/orders');
+                        }, 2000);
+                    },
+                    (error) => {
+                        this._messageService.add({ severity: 'error', summary: 'Error', detail: 'An Error occurred: ' + error });
+                    }
+                );
         }
     }
 

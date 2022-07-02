@@ -19,6 +19,10 @@ export class OrderService {
         return this._httpClient.get<Order>(`${this.baseUrl}/${orderId}`);
     }
 
+    public saveOrder(order: Order): Observable<Order> {
+        return this._httpClient.post<Order>(`${this.baseUrl}`, order);
+    }
+
     public updateOrder(orderStatus: { status: string }, orderId: string): Observable<Order> {
         return this._httpClient.put<Order>(`${this.baseUrl}/${orderId}`, orderStatus);
     }
