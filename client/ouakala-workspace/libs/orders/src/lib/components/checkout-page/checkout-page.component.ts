@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from '@ouakala-workspace/users';
+import { timeout } from 'rxjs';
 import { ORDER_STATUS } from '../../constants/order.status';
 import { Cart } from '../../models/cart';
 import { Order } from '../../models/order';
@@ -89,8 +90,10 @@ export class CheckoutPageComponent implements OnInit {
         };
 
         this._orderService.saveOrder(order).subscribe((response) => {
-          console.log("success");
-
+            setTimeout(() => {
+                this._cartService.emptyCart();
+                this._router.navigate(['/success']);
+            }, 3000);
         });
     }
 

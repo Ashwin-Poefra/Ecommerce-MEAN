@@ -15,6 +15,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputMaskModule } from 'primeng/inputmask';
 import { DropdownModule } from 'primeng/dropdown';
+import { ThankYouComponent } from './components/thank-you/thank-you.component';
 
 @NgModule({
     imports: [
@@ -29,7 +30,7 @@ import { DropdownModule } from 'primeng/dropdown';
         InputMaskModule,
         DropdownModule
     ],
-    declarations: [CartIconComponent, CartPageComponent, OrderSummaryComponent, CheckoutPageComponent],
+    declarations: [CartIconComponent, CartPageComponent, OrderSummaryComponent, CheckoutPageComponent, ThankYouComponent],
     exports: [CartIconComponent, CartPageComponent]
 })
 export class OrdersModule {
