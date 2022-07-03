@@ -22,4 +22,18 @@ export class LocalStorageService {
     removeToken() {
         localStorage.removeItem(TOKEN);
     }
+
+    isValidToken() {
+        const token = this.getToken();
+        if (token) {
+            const decodeToken = JSON.parse(atob(token.split('.')[1]));
+            return !this.isTokenExpired(decodeToken.exp);
+        } else {
+            return false;
+        }
+    }
+
+    private isTokenExpired(expiration: number): boolean {
+        return Math.floor(new Date().getTime() / 1000) >= expiration;
+    }
 }
