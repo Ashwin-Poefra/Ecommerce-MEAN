@@ -85,25 +85,32 @@ export class CheckoutPageComponent implements OnInit, OnDestroy {
             return;
         }
 
-        const order: Order = {
-            orderItems: this.orderItems,
-            shippingAddress1: this.checkoutForm['street'].value,
-            shippingAddress2: this.checkoutForm['apartment'].value,
-            city: this.checkoutForm['city'].value,
-            zip: this.checkoutForm['zip'].value,
-            country: this.checkoutForm['country'].value,
-            phone: this.checkoutForm['phone'].value,
-            status: 0,
-            user: this.userId,
-            dateOrdered: Date.now().toString()
-        };
+        this._orderService.createCheckoutSession(this.orderItems as OrderItem[]).subscribe((error) => {
+          if(error){
+            console.log("error in redirect to payment page.");
 
-        this._orderService.saveOrder(order).subscribe((response) => {
-            setTimeout(() => {
-                this._cartService.emptyCart();
-                this._router.navigate(['/success']);
-            }, 3000);
+          }
         });
+
+        // const order: Order = {
+        //     orderItems: this.orderItems,
+        //     shippingAddress1: this.checkoutForm['street'].value,
+        //     shippingAddress2: this.checkoutForm['apartment'].value,
+        //     city: this.checkoutForm['city'].value,
+        //     zip: this.checkoutForm['zip'].value,
+        //     country: this.checkoutForm['country'].value,
+        //     phone: this.checkoutForm['phone'].value,
+        //     status: 0,
+        //     user: this.userId,
+        //     dateOrdered: Date.now().toString()
+        // };
+
+        // this._orderService.saveOrder(order).subscribe((response) => {
+        //     setTimeout(() => {
+        //         this._cartService.emptyCart();
+        //         this._router.navigate(['/success']);
+        //     }, 3000);
+        // });
     }
 
     public autoFillUserData() {

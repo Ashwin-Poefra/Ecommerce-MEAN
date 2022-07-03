@@ -58,8 +58,6 @@ export class UserService {
     }
 
     observeCurrentUser() {
-      console.log("cc",this._usersFacade.currentUser$);
-
         return this._usersFacade.currentUser$;
     }
 

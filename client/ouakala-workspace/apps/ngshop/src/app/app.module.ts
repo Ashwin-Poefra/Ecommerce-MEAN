@@ -19,6 +19,7 @@ import { MessageService } from 'primeng/api';
 import { JwtInterceptor, UsersModule } from '@ouakala-workspace/users';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+import { NgxStripeModule } from 'ngx-stripe';
 
 @NgModule({
     declarations: [
@@ -41,7 +42,8 @@ import { EffectsModule } from '@ngrx/effects';
         UiModule,
         OrdersModule,
         ToastModule,
-        UsersModule
+        UsersModule,
+        NgxStripeModule.forRoot('pk_test_51LHaUsGKCo19TaIAPWvRrIryuJpkCqcvfU0ReIEdUP98X5up69zBwQzPuV3QH1pxMVhaO69NSw3YLSUuCuxahTII00O5CBesI2'),
     ],
     providers: [MessageService, { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }],
     bootstrap: [AppComponent]

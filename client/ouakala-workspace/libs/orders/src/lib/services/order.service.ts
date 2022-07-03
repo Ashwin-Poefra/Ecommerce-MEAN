@@ -1,7 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { map, Observable, switchMap } from 'rxjs';
 import { Order } from '../models/order';
+import { OrderItem } from '../models/order-item';
+import { StripeService } from 'ngx-stripe';
 
 @Injectable({
     providedIn: 'root'
@@ -9,7 +11,7 @@ import { Order } from '../models/order';
 export class OrderService {
     public baseUrl = 'http://localhost:3000/api/v1/orders';
 
-    constructor(private _httpClient: HttpClient) {}
+    constructor(private _httpClient: HttpClient, private _stripeService: StripeService) {}
 
     public getOrders(): Observable<Order[]> {
         return this._httpClient.get<Order[]>(`${this.baseUrl}`);
@@ -37,5 +39,13 @@ export class OrderService {
 
     getTotalSales(): Observable<number> {
         return this._httpClient.get<number>(`${this.baseUrl}/get/total-sales`).pipe(map((objectValue: any) => objectValue.totalsales));
+    }
+
+    createCheckoutSession(orderItem: OrderItem[]) {
+        return this._httpClient.post(`${this.baseUrl}/create-checkout-session`, orderItem).pipe(
+            switchMap((session: any) => {
+                return this._stripeService.redirectToCheckout({ sessionId: session.id });
+            })
+        );
     }
 }
