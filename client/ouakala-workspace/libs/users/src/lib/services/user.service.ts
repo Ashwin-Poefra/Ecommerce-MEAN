@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { User } from '../models/user';
 import * as countriesLib from 'i18n-iso-countries';
+import { UsersFacade } from '../+state/users.facade';
 
 declare const require: any;
 @Injectable({
@@ -11,7 +12,7 @@ declare const require: any;
 export class UserService {
     public baseUrl = 'http://localhost:3000/api/v1/users';
 
-    constructor(private _httpClient: HttpClient) {
+    constructor(private _httpClient: HttpClient, private _usersFacade: UsersFacade) {
         countriesLib.registerLocale(require('i18n-iso-countries/langs/en.json'));
     }
 
@@ -52,7 +53,7 @@ export class UserService {
         return countriesLib.getName(countryKey, 'en');
     }
 
-    public initAppSession(){
-
+    public initAppSession() {
+        this._usersFacade.buildUserSession();
     }
 }
