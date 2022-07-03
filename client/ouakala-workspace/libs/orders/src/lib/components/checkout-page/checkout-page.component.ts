@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from '@ouakala-workspace/users';
-import { take, timeout } from 'rxjs';
+import { Subject, take, takeUntil, timeout } from 'rxjs';
 import { ORDER_STATUS } from '../../constants/order.status';
 import { Cart } from '../../models/cart';
 import { Order } from '../../models/order';
@@ -15,12 +15,13 @@ import { OrderService } from '../../services/order.service';
     templateUrl: './checkout-page.component.html',
     styles: []
 })
-export class CheckoutPageComponent implements OnInit {
+export class CheckoutPageComponent implements OnInit, OnDestroy {
     public orderItems?: OrderItem[] = [];
     public checkoutFormGroup!: FormGroup;
-    public userId = '5f67be25ef4061637c13a11a';
+    public userId = '';
     public isSubmitted = false;
     public countries: { id: string; name: string }[] = [];
+    public endSubscription$: Subject<void> = new Subject();
 
     constructor(
         private _userService: UserService,
@@ -35,6 +36,11 @@ export class CheckoutPageComponent implements OnInit {
         this.autoFillUserData();
         this.getCartItem();
         this.getCountries();
+    }
+
+    ngOnDestroy(): void {
+        this.endSubscription$.next();
+        this.endSubscription$.complete();
     }
 
     private initCheckoutForm() {
@@ -101,18 +107,19 @@ export class CheckoutPageComponent implements OnInit {
     }
 
     public autoFillUserData() {
-      this._userService.observeCurrentUser()
-      .subscribe(
-        (response)=>{
-          this.checkoutForm['name'].setValue(response?.name)
-          this.checkoutForm['email'].setValue(response?.email)
-          this.checkoutForm['phone'].setValue(response?.phone)
-          this.checkoutForm['city'].setValue(response?.city)
-          this.checkoutForm['country'].setValue(response?.country)
-          this.checkoutForm['zip'].setValue(response?.zip)
-          this.checkoutForm['apartment'].setValue(response?.apartment)
-          this.checkoutForm['street'].setValue(response?.street)
-        }
-      )
+        this._userService
+            .observeCurrentUser()
+            .pipe(takeUntil(this.endSubscription$))
+            .subscribe((response) => {
+                this.userId = response?.id as string;
+                this.checkoutForm['name'].setValue(response?.name);
+                this.checkoutForm['email'].setValue(response?.email);
+                this.checkoutForm['phone'].setValue(response?.phone);
+                this.checkoutForm['city'].setValue(response?.city);
+                this.checkoutForm['country'].setValue(response?.country);
+                this.checkoutForm['zip'].setValue(response?.zip);
+                this.checkoutForm['apartment'].setValue(response?.apartment);
+                this.checkoutForm['street'].setValue(response?.street);
+            });
     }
 }

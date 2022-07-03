@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { NxWelcomeComponent } from './nx-welcome.component';
@@ -16,7 +16,7 @@ import { OrdersModule } from '@ouakala-workspace/orders';
 import { ToastModule } from 'primeng/toast';
 import { MessagesComponent } from './shared/messages/messages.component';
 import { MessageService } from 'primeng/api';
-import { UsersModule } from '@ouakala-workspace/users';
+import { JwtInterceptor, UsersModule } from '@ouakala-workspace/users';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
@@ -31,19 +31,19 @@ import { EffectsModule } from '@ngrx/effects';
         MessagesComponent
     ],
     imports: [
-      BrowserModule,
-      BrowserAnimationsModule,
-      AppRoutingModule,
-      HttpClientModule,
-      StoreModule.forRoot({}),
-      EffectsModule.forRoot([]),
-      ProductsModule,
-      UiModule,
-      OrdersModule,
-      ToastModule,
-      UsersModule,
+        BrowserModule,
+        BrowserAnimationsModule,
+        AppRoutingModule,
+        HttpClientModule,
+        StoreModule.forRoot({}),
+        EffectsModule.forRoot([]),
+        ProductsModule,
+        UiModule,
+        OrdersModule,
+        ToastModule,
+        UsersModule
     ],
-    providers: [MessageService],
+    providers: [MessageService, { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }],
     bootstrap: [AppComponent]
 })
 export class AppModule {}

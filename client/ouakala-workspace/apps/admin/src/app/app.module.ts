@@ -42,6 +42,9 @@ import { JwtInterceptor, UsersModule } from '@ouakala-workspace/users';
 import { MessageService } from 'primeng/api';
 import { ConfirmationService } from 'primeng/api';
 
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+
 const UX_MODULE = [
     CardModule,
     ToolbarModule,
@@ -78,7 +81,16 @@ const UX_MODULE = [
         OrdersListComponent,
         OrderDetailsComponent
     ],
-    imports: [BrowserModule, BrowserAnimationsModule, AppRoutingModule, HttpClientModule, FormsModule, ReactiveFormsModule, UsersModule, ...UX_MODULE],
+    imports: [
+      BrowserModule,
+      BrowserAnimationsModule,
+      AppRoutingModule,
+      HttpClientModule,
+      StoreModule.forRoot({}),
+      EffectsModule.forRoot([]),
+      FormsModule,
+      ReactiveFormsModule,
+      UsersModule, ...UX_MODULE],
     providers: [MessageService, ConfirmationService, { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }],
     bootstrap: [AppComponent]
 })
