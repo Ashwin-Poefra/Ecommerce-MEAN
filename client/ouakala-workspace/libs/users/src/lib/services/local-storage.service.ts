@@ -7,11 +7,11 @@ const TOKEN = 'jwtToken';
 export class LocalStorageService {
     constructor() {}
 
-    setToken(data: string) {
+    public setToken(data: string) {
         localStorage.setItem(TOKEN, data);
     }
 
-    getToken(): string {
+    public getToken(): string {
         const token = localStorage.getItem(TOKEN);
         if (token) {
             return token;
@@ -19,11 +19,11 @@ export class LocalStorageService {
         return '';
     }
 
-    removeToken() {
+    public removeToken() {
         localStorage.removeItem(TOKEN);
     }
 
-    isValidToken() {
+    public isValidToken() {
         const token = this.getToken();
         if (token) {
             const decodeToken = JSON.parse(atob(token.split('.')[1]));
@@ -35,5 +35,19 @@ export class LocalStorageService {
 
     private isTokenExpired(expiration: number): boolean {
         return Math.floor(new Date().getTime() / 1000) >= expiration;
+    }
+
+    public getUserId() {
+        const token = this.getToken();
+        if (token) {
+            const decodeToken = JSON.parse(atob(token.split('.')[1]));
+            if (decodeToken) {
+                return decodeToken.userId;
+            } else {
+                return null;
+            }
+        } else {
+            return null;
+        }
     }
 }

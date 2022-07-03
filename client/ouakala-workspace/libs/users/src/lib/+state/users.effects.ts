@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { createEffect, Actions, ofType } from '@ngrx/effects';
 import { fetch } from '@nrwl/angular';
-import { concatMap } from 'rxjs';
+import { catchError, concatMap, map, of } from 'rxjs';
 import { LocalStorageService } from '../services/local-storage.service';
+import { UserService } from '../services/user.service';
 
 import * as UsersActions from './users.actions';
 import * as UsersFeature from './users.reducer';
@@ -13,23 +14,23 @@ export class UsersEffects {
             ofType(UsersActions.buildUserSession),
             concatMap(()=>{
               if(this._localStorageService.isValidToken()){
-
-              }else{
-
-              }
-            }),
-            fetch({
-                run: (action) => {
-                    // Your custom service 'load' logic goes here. For now just return a success action...
-                    return UsersActions.loadUsersSuccess({ users: [] });
-                },
-                onError: (action, error) => {
-                    console.error('Error', error);
-                    return UsersActions.loadUsersFailure({ error });
+                const userId=this._localStorageService.getUserId()
+                if(userId){
+                  return this._userService.getUserById(userId).pipe(
+                    map((user)=>{
+                      return UsersActions.buildUserSessionSuccess({user:user})
+                    }),
+                    catchError(()=> of(UsersActions.buildUserSessionFailed()))
+                  );
+                }else{
+                  return of(UsersActions.buildUserSessionFailed());
                 }
+              }else{
+                return of(UsersActions.buildUserSessionFailed());
+              }
             })
         )
     );
 
-    constructor(private readonly actions$: Actions ,private _localStorageService:LocalStorageService) {}
+    constructor(private readonly actions$: Actions ,private _localStorageService:LocalStorageService, private _userService:UserService) {}
 }
