@@ -1,7 +1,7 @@
 import { createReducer, on, Action } from '@ngrx/store';
+import * as UsersActions from './users.actions';
 import { User } from '../models/user';
 
-import * as UsersActions from './users.actions';
 
 export const USERS_FEATURE_KEY = 'users';
 
@@ -10,9 +10,9 @@ export interface UserState {
     isAuthenticated: boolean;
 }
 
-export interface UsersPartialState {
-    readonly [USERS_FEATURE_KEY]: UserState;
-}
+// export interface UsersPartialState {
+//     readonly [USERS_FEATURE_KEY]: UserState;
+// }
 
 export const initialUserState: UserState = {
     user: null,
@@ -23,7 +23,7 @@ const usersReducer = createReducer(
     initialUserState,
     on(UsersActions.buildUserSession, (state) => ({ ...state })),
     on(UsersActions.buildUserSessionSuccess, (state, action) => ({ ...state, user: action.user, isAuthenticated: true })),
-    on(UsersActions.buildUserSessionFailed, (state, action) => ({ ...state, user: null, isAuthenticated: false }))
+    on(UsersActions.buildUserSessionFailed, (state) => ({ ...state, user: null, isAuthenticated: false }))
     // on(UsersActions.loadUsersFailure, (state, { error }) => ({ ...state, error }))
 );
 
