@@ -35,11 +35,11 @@ export class UserService {
         return this._httpClient.delete<object>(`${this.baseUrl}/${userId}`);
     }
 
-    getUsersCount(): Observable<number> {
+    public getUsersCount(): Observable<number> {
         return this._httpClient.get<number>(`${this.baseUrl}/get/count`).pipe(map((objectValue: any) => objectValue.userCount));
     }
 
-    getCountries(): { id: string; name: string }[] {
+    public getCountries(): { id: string; name: string }[] {
         return Object.entries(countriesLib.getNames('en', { select: 'official' })).map((entry) => {
             return {
                 id: entry[0],
@@ -48,7 +48,11 @@ export class UserService {
         });
     }
 
-    getCountry(countryKey: string): string {
+    public getCountry(countryKey: string): string {
         return countriesLib.getName(countryKey, 'en');
+    }
+
+    public initAppSession(){
+
     }
 }

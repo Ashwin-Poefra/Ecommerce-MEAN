@@ -17,6 +17,9 @@ import { ToastModule } from 'primeng/toast';
 import { MessagesComponent } from './shared/messages/messages.component';
 import { MessageService } from 'primeng/api';
 import { UsersModule } from '@ouakala-workspace/users';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+
 @NgModule({
     declarations: [
         AppComponent,
@@ -27,7 +30,19 @@ import { UsersModule } from '@ouakala-workspace/users';
         PrimaryNavbarComponent,
         MessagesComponent
     ],
-    imports: [BrowserModule, BrowserAnimationsModule, AppRoutingModule, HttpClientModule, ProductsModule, UiModule, OrdersModule, ToastModule, UsersModule],
+    imports: [
+      BrowserModule,
+      BrowserAnimationsModule,
+      AppRoutingModule,
+      HttpClientModule,
+      StoreModule.forRoot({}),
+      EffectsModule.forRoot([]),
+      ProductsModule,
+      UiModule,
+      OrdersModule,
+      ToastModule,
+      UsersModule,
+    ],
     providers: [MessageService],
     bootstrap: [AppComponent]
 })
