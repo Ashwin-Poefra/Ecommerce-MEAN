@@ -56,4 +56,14 @@ export class UserService {
     public initAppSession() {
         this._usersFacade.buildUserSession();
     }
+
+    observeCurrentUser() {
+      console.log("cc",this._usersFacade.currentUser$);
+
+        return this._usersFacade.currentUser$;
+    }
+
+    isCurrentUserAuthenticated() {
+      return this._usersFacade.isAuthenticated$;
+  }
 }

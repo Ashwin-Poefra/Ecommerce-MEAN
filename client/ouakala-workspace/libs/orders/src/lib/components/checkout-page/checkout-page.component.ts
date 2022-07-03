@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from '@ouakala-workspace/users';
-import { timeout } from 'rxjs';
+import { take, timeout } from 'rxjs';
 import { ORDER_STATUS } from '../../constants/order.status';
 import { Cart } from '../../models/cart';
 import { Order } from '../../models/order';
@@ -32,6 +32,7 @@ export class CheckoutPageComponent implements OnInit {
 
     ngOnInit(): void {
         this.initCheckoutForm();
+        this.autoFillUserData();
         this.getCartItem();
         this.getCountries();
     }
@@ -47,6 +48,10 @@ export class CheckoutPageComponent implements OnInit {
             apartment: ['', Validators.required],
             street: ['', Validators.required]
         });
+    }
+
+    get checkoutForm() {
+        return this.checkoutFormGroup.controls;
     }
 
     private getCountries() {
@@ -66,8 +71,6 @@ export class CheckoutPageComponent implements OnInit {
                 quantity: item.quantity
             };
         });
-
-        console.log('bb  ' + JSON.stringify(this.orderItems));
     }
 
     placeOrder() {
@@ -97,7 +100,19 @@ export class CheckoutPageComponent implements OnInit {
         });
     }
 
-    get checkoutForm() {
-        return this.checkoutFormGroup.controls;
+    public autoFillUserData() {
+      this._userService.observeCurrentUser()
+      .subscribe(
+        (response)=>{
+          this.checkoutForm['name'].setValue(response?.name)
+          this.checkoutForm['email'].setValue(response?.email)
+          this.checkoutForm['phone'].setValue(response?.phone)
+          this.checkoutForm['city'].setValue(response?.city)
+          this.checkoutForm['country'].setValue(response?.country)
+          this.checkoutForm['zip'].setValue(response?.zip)
+          this.checkoutForm['apartment'].setValue(response?.apartment)
+          this.checkoutForm['street'].setValue(response?.street)
+        }
+      )
     }
 }
