@@ -1,12 +1,8 @@
 import { createAction, props } from '@ngrx/store';
-import { UsersEntity } from './users.models';
-
+import { User } from '../models/user';
 
 export const buildUserSession=createAction('[Users] Build User Session');
 
+export const buildUserSessionSuccess = createAction('[Users] Build User Success', props<{ user: User }>());
 
-export const init = createAction('[Users Page] Init');
-
-export const loadUsersSuccess = createAction('[Users/API] Load Users Success', props<{ users: UsersEntity[] }>());
-
-export const loadUsersFailure = createAction('[Users/API] Load Users Failure', props<{ error: any }>());
+export const buildUserSessionFailed = createAction('[Users] Build User Failed');

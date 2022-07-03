@@ -22,7 +22,8 @@ export const initialUserState: UserState = {
 const usersReducer = createReducer(
     initialUserState,
     on(UsersActions.buildUserSession, (state) => ({ ...state })),
-    // on(UsersActions.loadUsersSuccess, (state, { users }) => usersAdapter.setAll(users, { ...state, loaded: true })),
+    on(UsersActions.buildUserSessionSuccess, (state, action) => ({ ...state, user: action.user, isAuthenticated: true }))
+    on(UsersActions.buildUserSessionFailed, (state, action) => ({ ...state, user: null, isAuthenticated: false }))
     // on(UsersActions.loadUsersFailure, (state, { error }) => ({ ...state, error }))
 );
 
