@@ -45,6 +45,8 @@ import { ConfirmationService } from 'primeng/api';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
+import { NgxStripeModule } from 'ngx-stripe';
+
 const UX_MODULE = [
     CardModule,
     ToolbarModule,
@@ -82,15 +84,19 @@ const UX_MODULE = [
         OrderDetailsComponent
     ],
     imports: [
-      BrowserModule,
-      BrowserAnimationsModule,
-      AppRoutingModule,
-      HttpClientModule,
-      StoreModule.forRoot({}),
-      EffectsModule.forRoot([]),
-      FormsModule,
-      ReactiveFormsModule,
-      UsersModule, ...UX_MODULE],
+        BrowserModule,
+        BrowserAnimationsModule,
+        AppRoutingModule,
+        HttpClientModule,
+        StoreModule.forRoot({}),
+        EffectsModule.forRoot([]),
+        FormsModule,
+        ReactiveFormsModule,
+        UsersModule,
+        ...UX_MODULE,
+        NgxStripeModule.forRoot('pk_test_51LHaUsGKCo19TaIAPWvRrIryuJpkCqcvfU0ReIEdUP98X5up69zBwQzPuV3QH1pxMVhaO69NSw3YLSUuCuxahTII00O5CBesI2')
+    ],
+
     providers: [MessageService, ConfirmationService, { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }],
     bootstrap: [AppComponent]
 })

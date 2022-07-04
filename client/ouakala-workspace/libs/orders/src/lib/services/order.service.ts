@@ -48,4 +48,8 @@ export class OrderService {
             })
         );
     }
+
+    cacheOrderDate(order: Order) {
+        localStorage.setItem('orderData', JSON.stringify(order));
+    }
 }
