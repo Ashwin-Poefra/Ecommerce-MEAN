@@ -49,7 +49,15 @@ export class OrderService {
         );
     }
 
-    cacheOrderDate(order: Order) {
+    setCacheOrderDate(order: Order) {
         localStorage.setItem('orderData', JSON.stringify(order));
+    }
+
+    getCacheOrderDate(): Order {
+        return JSON.parse(localStorage.getItem('orderData') || '{}');
+    }
+
+    removeCacheOrderDate() {
+        return localStorage.removeItem('orderData');
     }
 }

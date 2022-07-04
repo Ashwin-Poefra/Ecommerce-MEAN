@@ -98,7 +98,7 @@ export class CheckoutPageComponent implements OnInit, OnDestroy {
             dateOrdered: Date.now().toString()
         };
 
-        this._orderService.cacheOrderDate(order);
+        this._orderService.setCacheOrderDate(order);
         //service removed from here to thank-you-page
 
         this._orderService.createCheckoutSession(this.orderItems as OrderItem[]).subscribe((error) => {
